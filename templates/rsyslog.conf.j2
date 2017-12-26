@@ -12,8 +12,14 @@ $ModLoad imjournal # provides access to the systemd journal
 #$ModLoad immark  # provides --MARK-- message capability
 
 # Provides UDP syslog reception
+{% if rsyslog_receiver is defined %}
+$ModLoad imudp
+$UDPServerRun 514
+{% else %}
 #$ModLoad imudp
 #$UDPServerRun 514
+{% endif %}
+
 
 # Provides TCP syslog reception
 {% if rsyslog_receiver is defined %}
