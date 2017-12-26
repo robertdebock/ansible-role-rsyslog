@@ -1,0 +1,29 @@
+---
+# tasks file for rsyslog
+- name: install software
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ rsyslog_packages[ansible_distribution ~ '-' ~ ansible_distribution_major_version]
+      | default(rsyslog_packages[ansible_distribution]
+      | default(rsyslog_packages['default'] )) }}"
+
+- name: configuring software
+  template:
+    src: templates/rsyslog.conf.j2
+    dest: /etc/rsyslog.conf
+  notify:
+    - restart software
+
+- name: start and enable software
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items:
+    - "{{ rsyslog_services[ansible_distribution ~ '-' ~ ansible_distribution_major_version]
+      | default(rsyslog_services[ansible_distribution]
+      | default(rsyslog_services['default'] )) }}"
+  when:
+    - ansible_virtualization_type != "docker"

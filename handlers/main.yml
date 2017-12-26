@@ -1,0 +1,8 @@
+---
+# handlers file for rsyslog
+- name: restart software
+  service:
+    name: rsyslog
+    state: restarted
+  when:
+    - ansible_virtualization_type != "docker"
