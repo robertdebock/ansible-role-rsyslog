@@ -16,6 +16,11 @@
   notify:
     - restart software
 
+- name: make configuration directory
+  file:
+    name: /etc/rsyslog.d/
+    state: directory
+
 - name: start and enable software
   service:
     name: "{{ item }}"
