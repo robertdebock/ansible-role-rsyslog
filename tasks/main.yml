@@ -1,5 +1,10 @@
 ---
 # tasks file for rsyslog
+- name: uninstall conflicting software
+  package:
+    name: systemd-logger
+    state: absent
+
 - name: install software
   package:
     name: "{{ item }}"
