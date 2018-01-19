@@ -8,8 +8,6 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: rsyslog-archlinux
-    image: base/archlinux
   - name: rsyslog-alpine-3.6
     image: alpine:3.6
   - name: rsyslog-alpine-3.7
