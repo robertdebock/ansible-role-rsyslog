@@ -19,7 +19,7 @@
     src: templates/rsyslog.conf.j2
     dest: /etc/rsyslog.conf
   notify:
-    - restart software
+    - restart rsyslog
 
 - name: make configuration directory
   file:
