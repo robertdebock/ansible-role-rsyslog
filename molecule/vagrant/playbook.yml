@@ -5,5 +5,6 @@
   gather_facts: no
 
   roles:
+    - role: robertdebock.bootstrap
     - role: ansible-role-rsyslog
       rsyslog_receiver: yes
