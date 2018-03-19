@@ -37,12 +37,24 @@ ansible-galaxy install --role-file requirements.yml
 Example Playbook
 ----------------
 
+Here is how to setup an rsyslog server:
 ```
 - hosts: servers
 
   roles:
     - role: robertdebock.bootstrap
     - role: robertdebock.rsyslog
+      rsyslog_receiver: yes
+```
+
+Here is how to setup an rsyslog client:
+```
+- hosts: servers
+
+  roles:
+    - role: robertdebock.bootstrap
+    - role: robertdebock.rsyslog
+      rsyslog_remote: server1.example.com
 ```
 
 Install this role using `galaxy install robertdebock.rsyslog`.
