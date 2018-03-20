@@ -10,6 +10,7 @@ Context
 This role is a part of many compatible roles. Have a look at [the documentation of these roles](https://robertdebock.nl/) for further information.
 
 Here is an overview of related roles:
+
 ![dependencies](https://raw.githubusercontent.com/robertdebock/robertdebock.github.io/artifacts/rsyslog.png "Dependency")
 
 Requirements
@@ -27,7 +28,7 @@ Dependencies
 
 You may use this role to prepare your system:
 
-- robertdebock.bootstrap
+- [robertdebock.bootstrap](https://galaxy.ansible.com/robertdebock/bootstrap/)
 
 Download the dependencies by issuing this command:
 ```
@@ -56,6 +57,8 @@ Here is how to setup an rsyslog client:
     - role: robertdebock.rsyslog
       rsyslog_remote: server1.example.com
 ```
+
+You can (probably better) set these variables in group_vars.
 
 Install this role using `galaxy install robertdebock.rsyslog`.
 
