@@ -44,6 +44,7 @@ This role has been tested against the following distributions and Ansible versio
 |------------|-----------|-----------|-----------|
 |alpine-3.6|yes|yes|yes|
 |alpine-3.7|yes|yes|yes|
+|archlinux|no|no|no|
 |centos-6|yes|yes|yes|
 |centos-7|yes|yes|yes|
 |debian-buster|yes|yes|yes|
