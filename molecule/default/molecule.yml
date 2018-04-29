@@ -30,15 +30,10 @@ platforms:
     image: opensuse:42.2
   - name: rsyslog-opensuse-42.3
     image: opensuse:42.3
-    # 14.04 LTS
-  - name: rsyslog-ubuntu-trusty
-    image: ubuntu:trusty
-    # 16.04 LTS
-  - name: rsyslog-ubuntu-xenial
-    image: ubuntu:xenial
-    # 17.04
   - name: rsyslog-ubuntu-artful
     image: ubuntu:artful
+  - name: rsyslog-ubuntu-bionic
+    image: ubuntu:bionic
 provisioner:
   name: ansible
   lint:
