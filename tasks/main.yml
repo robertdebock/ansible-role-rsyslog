@@ -16,7 +16,7 @@
 
 - name: configuring software
   template:
-    src: templates/rsyslog.conf.j2
+    src: rsyslog.conf.j2
     dest: /etc/rsyslog.conf
   notify:
     - restart rsyslog
