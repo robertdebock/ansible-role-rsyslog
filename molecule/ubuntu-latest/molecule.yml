@@ -8,14 +8,14 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: rsyslog-debian-stretch
-    image: debian:stretch
+  - name: rsyslog-ubuntu-latest
+    image: ubuntu:latest
 provisioner:
   name: ansible
   lint:
     name: ansible-lint
 scenario:
-  name: debian-stretch
+  name: ubuntu-latest
 verifier:
   name: goss
   lint:

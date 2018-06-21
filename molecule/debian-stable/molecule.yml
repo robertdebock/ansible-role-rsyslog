@@ -8,14 +8,14 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: rsyslog-alpine-3.6
-    image: alpine:3.6
+  - name: rsyslog-debian-stable
+    image: debian:stable
 provisioner:
   name: ansible
   lint:
     name: ansible-lint
 scenario:
-  name: alpine-3.6
+  name: debian-stable
 verifier:
   name: goss
   lint:

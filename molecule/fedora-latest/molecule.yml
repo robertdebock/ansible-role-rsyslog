@@ -8,14 +8,14 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: rsyslog-opensuse-42.2
-    image: opensuse:42.2
+  - name: rsyslog-fedora-latest
+    image: fedora:latest
 provisioner:
   name: ansible
   lint:
     name: ansible-lint
 scenario:
-  name: opensuse-42.2
+  name: fedora-latest
 verifier:
   name: goss
   lint:
