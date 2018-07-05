@@ -1,9 +1,6 @@
 ---
 # vars file for rsyslog
 rsyslog_packages:
-  default:
-    - rsyslog
+  - rsyslog
 
-rsyslog_services:
-  default:
-    - rsyslog
+rsyslog_service: rsyslog

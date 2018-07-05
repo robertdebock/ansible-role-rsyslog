@@ -2,7 +2,7 @@
 # handlers file for rsyslog
 - name: restart rsyslog
   service:
-    name: rsyslog
+    name: "{{ rsyslog_service }}"
     state: restarted
   when:
     - ansible_virtualization_type != "docker"

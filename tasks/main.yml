@@ -10,9 +10,7 @@
     name: "{{ item }}"
     state: present
   with_items:
-    - "{{ rsyslog_packages[ansible_distribution ~ '-' ~ ansible_distribution_major_version]
-      | default(rsyslog_packages[ansible_distribution]
-      | default(rsyslog_packages['default'] )) }}"
+    - "{{ rsyslog_packages }}"
 
 - name: configuring software
   template:
@@ -28,12 +26,8 @@
 
 - name: start and enable software
   service:
-    name: "{{ item }}"
+    name: "{{ rsyslog_service }}"
     state: started
     enabled: yes
-  with_items:
-    - "{{ rsyslog_services[ansible_distribution ~ '-' ~ ansible_distribution_major_version]
-      | default(rsyslog_services[ansible_distribution]
-      | default(rsyslog_services['default'] )) }}"
   when:
     - ansible_virtualization_type != "docker"
