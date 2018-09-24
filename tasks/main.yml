@@ -8,6 +8,7 @@
 - name: install software
   package:
     name: "{{ item }}"
+    package: present
   with_items:
     - "{{ rsyslog_packages }}"
 
