@@ -3,8 +3,7 @@ rsyslog
 
 [![Build Status](https://travis-ci.org/robertdebock/ansible-role-rsyslog.svg?branch=master)](https://travis-ci.org/robertdebock/ansible-role-rsyslog)
 
-Provides rsyslog for your system.
-
+The purpose of this role is to install and configure rsyslog on your system.
 
 Example Playbook
 ----------------
