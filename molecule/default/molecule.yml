@@ -38,8 +38,14 @@ platforms:
     image: ubuntu:artful
   - name: rsyslog-ubuntu-devel
     image: ubuntu:devel
+  - name: rsyslog-ubuntu-latest
+    image: ubuntu:latest
 provisioner:
   name: ansible
+  inventory:
+    group_vars:
+      all:
+        rsyslog_ignore_docker: no
   lint:
     name: ansible-lint
   config_options:
