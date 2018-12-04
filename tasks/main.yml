@@ -9,6 +9,9 @@
   package:
     name: "{{ rsyslog_packages }}"
     state: "{{ rsyslog_package_state }}"
+  register: rsyslog_install_rsyslog
+  until: rsyslog_install_rsyslog
+  retries: 3
 
 - name: configuring rsyslog
   template:
