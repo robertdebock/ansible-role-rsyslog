@@ -9,7 +9,7 @@ lint:
   name: yamllint
 platforms:
   - name: rsyslog-archlinux
-    image: base/archlinux
+    image: archlinux/base
 provisioner:
   name: ansible
   inventory:
