@@ -34,8 +34,10 @@ platforms:
     image: opensuse:leap
   - name: rsyslog-opensuse-tumbleweed
     image: opensuse:tumbleweed
-  - name: rsyslog-ubuntu-artful
-    image: ubuntu:artful
+  - name: rsyslog-ubuntu-latest
+    image: ubuntu:latest
+  - name: rsyslog-ubuntu-rolling
+    image: ubuntu:rolling
   - name: rsyslog-ubuntu-devel
     image: ubuntu:devel
   - name: rsyslog-ubuntu-latest
