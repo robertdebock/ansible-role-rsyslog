@@ -32,8 +32,6 @@ platforms:
     image: fedora:rawhide
   - name: rsyslog-opensuse-leap
     image: opensuse:leap
-  - name: rsyslog-opensuse-tumbleweed
-    image: opensuse:tumbleweed
   - name: rsyslog-ubuntu-latest
     image: ubuntu:latest
   - name: rsyslog-ubuntu-rolling
