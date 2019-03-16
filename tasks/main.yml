@@ -8,7 +8,7 @@
 - name: install rsyslog
   package:
     name: "{{ rsyslog_packages }}"
-    state: "{{ rsyslog_package_state }}"
+    state: present
   register: rsyslog_install_rsyslog
   until: rsyslog_install_rsyslog
   retries: 3
@@ -31,4 +31,4 @@
     state: started
     enabled: yes
   when:
-    - ansible_virtualization_type != "docker" or rsyslog_ignore_docker
+    - ansible_virtualization_type != "docker"

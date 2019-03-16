@@ -5,4 +5,4 @@
     name: "{{ rsyslog_service }}"
     state: restarted
   when:
-    - ansible_virtualization_type != "docker" or rsyslog_ignore_docker
+    - ansible_virtualization_type != "docker"
