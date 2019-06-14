@@ -10,7 +10,7 @@
     name: "{{ rsyslog_packages }}"
     state: present
   register: rsyslog_install_rsyslog
-  until: rsyslog_install_rsyslog
+  until: rsyslog_install_rsyslog is succeeded
   retries: 3
 
 - name: configuring rsyslog
