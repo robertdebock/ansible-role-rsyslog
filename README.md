@@ -6,8 +6,8 @@ rsyslog
 
 Install and configure rsyslog on your system.
 
-<img src="https://img.shields.io/ansible/role/d/22988"/>
-<img src="https://img.shields.io/ansible/quality/22988"/>
+<img src="https://img.shields.io/ansible/role/d/"/>
+<img src="https://img.shields.io/ansible/quality/"/>
 
 Example Playbook
 ----------------
