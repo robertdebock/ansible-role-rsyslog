@@ -6,8 +6,8 @@ rsyslog
 
 Install and configure rsyslog on your system.
 
-<img src="https://img.shields.io/ansible/role/d/22988"/>
-<img src="https://img.shields.io/ansible/quality/22988"/>
+<img src="https://img.shields.io/ansible/role/d/"/>
+<img src="https://img.shields.io/ansible/quality/"/>
 
 Example Playbook
 ----------------
@@ -97,7 +97,6 @@ This role has been tested on these [container images](https://hub.docker.com/):
 |---------|--------------|
 |alpine:latest|no|
 |alpine:edge|yes|
-|archlinux/base|no|
 |robertdebock/docker-centos-systemd:7|no|
 |robertdebock/docker-centos-systemd:latest|no|
 |robertdebock/docker-debian-systemd:latest|no|
@@ -125,7 +124,7 @@ Some variarations of the build matrix do not work. These are the variations and 
 
 | variation                 | reason                 |
 |---------------------------|------------------------|
-| Archlinux | target not found: rsyslog |
+| archlinux/base | target not found: rsyslog |
 
 
 
