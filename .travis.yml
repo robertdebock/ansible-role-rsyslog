@@ -8,34 +8,37 @@ services:
   - docker
 
 env:
+  global:
+    - namespace="robertdebock/"
   matrix:
-    - distribution="alpine:latest"
-    - distribution="alpine:edge"
-    - distribution="robertdebock/docker-centos-systemd:7"
-    - distribution="robertdebock/docker-centos-systemd:latest"
-    - distribution="robertdebock/docker-debian-systemd:latest"
-    - distribution="robertdebock/docker-debian-systemd:stable"
-    - distribution="robertdebock/docker-debian-systemd:unstable"
-    - distribution="robertdebock/docker-fedora-systemd:latest"
-    - distribution="robertdebock/docker-fedora-systemd:rawhide"
-    - distribution="opensuse/leap"
-    - distribution="robertdebock/docker-ubuntu-systemd:latest"
-    - distribution="robertdebock/docker-ubuntu-systemd:devel"
-    - distribution="robertdebock/docker-ubuntu-systemd:rolling"
+    - image="docker-alpine-openrc"
+    - image="docker-alpine-openrc" tag="edge"
+    # - namespace="archlinux/" image="base"
+    - image="docker-centos-systemd" tag="7"
+    - image="docker-centos-systemd"
+    - image="docker-debian-systemd" tag="stable"
+    - image="docker-debian-systemd" tag="unstable"
+    - image="docker-debian-systemd"
+    - image="docker-fedora-systemd"
+    - image="docker-fedora-systemd" tag="rawhide"
+    - namespace="opensuse/" image="leap"
+    - image="docker-ubuntu-systemd" tag="rolling"
+    - image="docker-ubuntu-systemd" tag="devel"
+    - image="docker-ubuntu-systemd"
 
 matrix:
   allow_failures:
-    - env: distribution="alpine:edge"
-    - env: distribution="robertdebock/docker-debian-systemd:unstable"
-    - env: distribution="robertdebock/docker-fedora-systemd:rawhide"
-    - env: distribution="robertdebock/docker-ubuntu-systemd:devel"
+    - env: image="docker-alpine-openrc" tag="edge"
+    - env: image="docker-debian-systemd" tag="unstable"
+    - env: image="docker-fedora-systemd" tag="rawhide"
+    - env: image="docker-ubuntu-systemd" tag="rolling"
+    - env: image="docker-ubuntu-systemd" tag="devel"
 
 cache:
   - pip
 
 install:
   - pip install --upgrade pip
-  - pip install molecule
   - pip install tox
 
 script:

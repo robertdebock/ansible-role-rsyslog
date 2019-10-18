@@ -8,8 +8,8 @@ lint:
 driver:
   name: docker
 platforms:
-  - name: "instance-${TOX_ENVNAME:-default}"
-    image: "${distribution:-robertdebock/docker-fedora-systemd:latest}"
+  - name: "${image:-default}-${TOX_ENVNAME:-default}"
+    image: "${namespace}${image:-docker-fedora-systemd}:${tag:-latest}"
     command: sh -c "while true ; do sleep 30 ; done"
     pre_build_image: yes
 provisioner:
@@ -17,9 +17,5 @@ provisioner:
   playbooks:
     prepare: prepare.yml
     converge: playbook.yml
-  inventory:
-    group_vars:
-      all:
-        ansible_python_interpreter: /usr/bin/python3
 scenario:
   name: default
