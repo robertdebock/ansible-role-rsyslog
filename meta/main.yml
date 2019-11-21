@@ -36,7 +36,6 @@ galaxy_info:
     - rsyslog
     - installer
     - package
-    - alpine
     - centos
     - debian
     - fedora
