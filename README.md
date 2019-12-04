@@ -113,7 +113,6 @@ Some variarations of the build matrix do not work. These are the variations and 
 | archlinux/base | target not found: rsyslog |
 
 
-
 Testing
 -------
 
