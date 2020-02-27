@@ -5,7 +5,7 @@ Install and configure rsyslog on your system.
 
 |Travis|GitHub|Quality|Downloads|
 |------|------|-------|---------|
-|[![travis](https://travis-ci.org/robertdebock/ansible-role-rsyslog.svg?branch=master)](https://travis-ci.org/robertdebock/ansible-role-rsyslog)|[![github](https://github.com/robertdebock/ansible-role-rsyslog/workflows/Ansible%20Molecule/badge.svg)](https://github.com/robertdebock/ansible-role-rsyslog/actions)|![quality](https://img.shields.io/ansible/quality/22988)|![downloads](https://img.shields.io/ansible/role/d/22988)|
+|[![travis](https://travis-ci.org/robertdebock/ansible-role-rsyslog.svg?branch=master)](https://travis-ci.org/robertdebock/ansible-role-rsyslog)|[![github](https://github.com/robertdebock/ansible-role-rsyslog/workflows/Ansible%20Molecule/badge.svg)](https://github.com/robertdebock/ansible-role-rsyslog/actions)|![quality](https://img.shields.io/ansible/quality/)|![downloads](https://img.shields.io/ansible/role/d/)|
 
 Example Playbook
 ----------------
@@ -65,6 +65,12 @@ These variables are set in `defaults/main.yml`:
 # the ipaddress of the receiving rsyslog server.
 # Not setting this variable will not forward logs.
 # rsyslog_remote: server1.example.com
+
+# Set the mode for new directories
+rsyslog_dircreatemode: "0700"
+
+# Set the mode for new files
+rsyslog_filecreatemode: "0644"
 ```
 
 Requirements
