@@ -52,6 +52,9 @@ $OmitLocalLogging on
 # File to store the position in the journal
 $IMJournalStateFile imjournal.state
 
+# Set mode for new files and directories
+$DirCreateMode {{ rsyslog_dircreatemode }}
+$FileCreateMode {{ rsyslog_filecreatemode }}
 
 #### RULES ####
 
