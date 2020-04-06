@@ -5,4 +5,4 @@
   gather_facts: yes
 
   roles:
-    - ansible-role-rsyslog
+    - role: ansible-role-rsyslog
