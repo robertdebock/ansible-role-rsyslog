@@ -68,7 +68,14 @@ rsyslog_dircreatemode: "0700"
 
 # Set the mode for new files
 rsyslog_filecreatemode: "0644"
-```
+
+# Set the mods enabled
+rsyslog_mods:
+  - imuxsock
+  - imjournal
+
+# Configure rsyslog minimally (may be in conflict with custom configuration files)
+rsyslog_deploy_default_config: True```
 
 ## Requirements
 
