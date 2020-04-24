@@ -46,7 +46,7 @@ $IMJournalStateFile imjournal.state
 $DirCreateMode {{ rsyslog_dircreatemode }}
 $FileCreateMode {{ rsyslog_filecreatemode }}
 
-{% if rsyslog_deploy_default_config | d(True) %}
+{% if rsyslog_deploy_default_config %}
 #### RULES ####
 
 # Log all kernel messages to the console.
