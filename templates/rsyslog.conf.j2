@@ -7,28 +7,18 @@
 #### MODULES ####
 
 # The imjournal module bellow is now used as a message source instead of imuxsock.
-$ModLoad imuxsock # provides support for local system logging (e.g. via logger command)
-$ModLoad imjournal # provides access to the systemd journal
-#$ModLoad imklog # reads kernel messages (the same are read from journald)
-#$ModLoad immark  # provides --MARK-- message capability
+{{ '#' if not 'imuxsock'  in rsyslog_mods else '' }}$ModLoad imuxsock  # provides support for local system logging (e.g. via logger command)
+{{ '#' if not 'imjournal' in rsyslog_mods else '' }}$ModLoad imjournal # provides access to the systemd journal
+{{ '#' if not 'imklog'    in rsyslog_mods else '' }}$ModLoad imklog    # reads kernel messages (the same are read from journald)
+{{ '#' if not 'immark'    in rsyslog_mods else '' }}$ModLoad immark    # provides --MARK-- message capability
 
 # Provides UDP syslog reception
-{% if rsyslog_receiver is defined %}
-$ModLoad imudp
-$UDPServerRun 514
-{% else %}
-#$ModLoad imudp
-#$UDPServerRun 514
-{% endif %}
+{{ '' if rsyslog_receiver is defined else '#' }}$ModLoad imudp
+{{ '' if rsyslog_receiver is defined else '#' }}$UDPServerRun 514
 
 # Provides TCP syslog reception
-{% if rsyslog_receiver is defined %}
-$ModLoad imtcp
-$InputTCPServerRun 514
-{% else %}
-#$ModLoad imtcp
-#$InputTCPServerRun 514
-{% endif %}
+{{ '' if rsyslog_receiver is defined else '#' }}$ModLoad imtcp
+{{ '' if rsyslog_receiver is defined else '#' }}$InputTCPServerRun 514
 
 #### GLOBAL DIRECTIVES ####
 
@@ -56,6 +46,7 @@ $IMJournalStateFile imjournal.state
 $DirCreateMode {{ rsyslog_dircreatemode }}
 $FileCreateMode {{ rsyslog_filecreatemode }}
 
+{% if rsyslog_deploy_default_config %}
 #### RULES ####
 
 # Log all kernel messages to the console.
@@ -105,3 +96,4 @@ local7.*                                                /var/log/boot.log
 *.* @@{{ rsyslog_remote }}:514
 {% endif %}
 # ### end of the forwarding rule ###
+{% endif %}
