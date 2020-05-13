@@ -63,6 +63,17 @@ These variables are set in `defaults/main.yml`:
 # Not setting this variable will not forward logs.
 # rsyslog_remote: server1.example.com
 
+# If rsylog_remote is set, sets the "selector" pattern for determining which
+# messages to send to the remote server.  Default "*.*" sends everything.
+# See `man rsyslog.conf`.
+rsyslog_remote_selector: "*.*"
+
+# If rsylog_remote is set, use TCP if true.  UDP if false.
+rsyslog_remote_tcp: true
+
+# If rsylog_remote is set, destination port to use.
+rsyslog_remote_port: "514"
+
 # Set the mode for new directories
 rsyslog_dircreatemode: "0700"
 

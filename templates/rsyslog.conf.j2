@@ -37,10 +37,10 @@ $IncludeConfig /etc/rsyslog.d/*.conf
 
 # Turn off message reception via local log socket;
 # local messages are retrieved through imjournal now.
-$OmitLocalLogging on
+{{ '#' if 'imuxsock' in rsyslog_mods else '' }}$OmitLocalLogging on
 
 # File to store the position in the journal
-$IMJournalStateFile imjournal.state
+{{ '#' if not 'imjournal' in rsyslog_mods else '' }}$IMJournalStateFile imjournal.state
 
 # Set mode for new files and directories
 $DirCreateMode {{ rsyslog_dircreatemode }}
@@ -93,7 +93,7 @@ local7.*                                                /var/log/boot.log
 # remote host is: name/ip:port, e.g. 192.168.0.1:514, port optional
 #*.* @@remote-host:514
 {% if rsyslog_remote is defined %}
-*.* @@{{ rsyslog_remote }}:514
+{{ rsyslog_remote_selector }} {{ '@@' if rsyslog_remote_tcp else '@' }}{{ rsyslog_remote }}:{{ rsyslog_remote_port }}
 {% endif %}
 # ### end of the forwarding rule ###
 {% endif %}
