@@ -68,8 +68,8 @@ These variables are set in `defaults/main.yml`:
 # See `man rsyslog.conf`.
 rsyslog_remote_selector: "*.*"
 
-# If rsylog_remote is set, use TCP if true.  UDP if false.
-rsyslog_remote_tcp: true
+# If rsylog_remote is set, use TCP if yes. UDP if no.
+rsyslog_remote_tcp: yes
 
 # If rsylog_remote is set, destination port to use.
 rsyslog_remote_port: "514"
@@ -86,7 +86,8 @@ rsyslog_mods:
   - imjournal
 
 # Configure rsyslog minimally (may be in conflict with custom configuration files)
-rsyslog_deploy_default_config: True```
+rsyslog_deploy_default_config: yes
+```
 
 ## [Requirements](#requirements)
 
