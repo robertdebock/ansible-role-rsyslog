@@ -23,7 +23,7 @@
 #### GLOBAL DIRECTIVES ####
 
 # Where to place auxiliary files
-$WorkDirectory /var/lib/rsyslog
+$WorkDirectory {{ rsyslog_work_directory }}
 
 # Use default timestamp format
 $ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
