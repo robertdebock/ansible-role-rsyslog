@@ -19,7 +19,7 @@ rsyslog_remote_selector: "*.*"
 rsyslog_remote_tcp: yes
 
 # If rsylog_remote is set, destination port to use.
-rsyslog_remote_port: "514"
+rsyslog_remote_port: 514
 
 # Set the mode for new directories
 rsyslog_dircreatemode: "0700"

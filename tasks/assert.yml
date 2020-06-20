@@ -1,0 +1,63 @@
+---
+- name: test if rsyslog_receiver is set correctly
+  assert:
+    that:
+      - rsyslog_receiver is defined
+      - rsyslog_receiver | type_debug == "bool"
+  when:
+    - rsyslog_receiver is defined
+
+- name: test if rsyslog_remote is set correctly
+  assert:
+    that:
+      - rsyslog_remote | length > 0
+  when:
+    -  rsyslog_remote is defined
+
+- name: test if rsyslog_remote_selector is set correctly
+  assert:
+    that:
+      - rsyslog_remote_selector is defined
+      - rsyslog_remote_selector | length > 0
+
+- name: test if rsyslog_remote_port is set correctly
+  assert:
+    that:
+      - rsyslog_remote_port is defined
+      - rsyslog_remote_port | int
+      - rsyslog_remote_port | int > 0
+      - rsyslog_remote_port | int < 65536
+
+- name: test if rsyslog_dircreatemode is set correctly
+  assert:
+    that:
+      - rsyslog_dircreatemode is defined
+      - rsyslog_dircreatemode | int
+      - rsyslog_dircreatemode | regex_search('^0')
+
+- name: test if rsyslog_filecreatemode is set correctly
+  assert:
+    that:
+      - rsyslog_filecreatemode is defined
+      - rsyslog_filecreatemode | int
+      - rsyslog_filecreatemode | regex_search('^0')
+
+- name: test if rsyslog_mods is set correctly
+  assert:
+    that:
+      - rsyslog_mods is defined
+      - rsyslog_mods | length > 0
+      - rsyslog_mods is iterable
+
+- name: test if item in rsyslog_mods is set correctly
+  assert:
+    that:
+      - item | length >0
+      - item in ["imuxsock", "imjournal", "imklog", "immark"]
+  loop: "{{ rsyslog_mods }}"
+
+- name: test if rsyslog_deploy_default_config is set correctly
+  assert:
+    that:
+      - rsyslog_deploy_default_config is defined
+      - rsyslog_deploy_default_config | type_debug == "bool"
