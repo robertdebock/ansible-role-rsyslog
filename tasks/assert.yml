@@ -54,6 +54,7 @@
     that:
       - item | length >0
       - item in ["imuxsock", "imjournal", "imklog", "immark"]
+    quiet: yes
   loop: "{{ rsyslog_mods }}"
 
 - name: test if rsyslog_deploy_default_config is set correctly
