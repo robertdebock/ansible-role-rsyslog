@@ -1,5 +1,6 @@
 ---
 # vars file for rsyslog
+
 rsyslog_packages:
   - rsyslog
 
