@@ -176,6 +176,12 @@ image="debian" tag="stable" tox
 
 Apache-2.0
 
+## [Contributors](#contributors)
+
+I'd like to thank everybody that made contributions to this repository. It motivates me, improves the code and is just fun to collaborate.
+
+- [foonix](https://github.com/foonix)
+- [benformosa](https://github.com/benformosa)
 
 ## [Author Information](#author-information)
 
