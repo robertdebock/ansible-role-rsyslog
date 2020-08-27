@@ -14,7 +14,7 @@
       - rsyslog_remote | length > 0
     quiet: yes
   when:
-    -  rsyslog_remote is defined
+    - rsyslog_remote is defined
 
 - name: test if rsyslog_remote_selector is set correctly
   assert:
