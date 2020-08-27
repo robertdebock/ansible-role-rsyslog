@@ -17,6 +17,7 @@
   template:
     src: rsyslog.conf.j2
     dest: /etc/rsyslog.conf
+    mode: "0644"
   notify:
     - restart rsyslog
 
@@ -24,6 +25,7 @@
   file:
     name: /etc/rsyslog.d/
     state: directory
+    mode: "0755"
 
 - name: start and enable rsyslog
   service:
