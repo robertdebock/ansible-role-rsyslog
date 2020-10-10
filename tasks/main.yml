@@ -16,7 +16,7 @@
 
 - name: configuring rsyslog
   template:
-    src: rsyslog.conf.j2
+    src: "{{ rsyslog_config_file_format }}_rsyslog.conf.j2"
     dest: /etc/rsyslog.conf
     mode: "0644"
   notify:
