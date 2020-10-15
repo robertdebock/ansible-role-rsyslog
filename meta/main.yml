@@ -39,7 +39,5 @@ galaxy_info:
     - rsyslog
     - installer
     - package
-    - centos
-    - redhat
 
 dependencies: []
