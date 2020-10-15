@@ -5,3 +5,4 @@
 repository:
   description: Install and configure rsyslog on your system.
   homepage: https://robertdebock.nl/
+  topics: rsyslog, installer, package, ansible, molecule, tox, playbook, hacktoberfest
