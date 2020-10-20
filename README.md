@@ -87,6 +87,13 @@ rsyslog_mods:
 
 # Configure rsyslog minimally (may be in conflict with custom configuration files)
 rsyslog_deploy_default_config: yes
+
+# Use the (obsolete) legacy, pre-v6 configuration file format, or the more modern
+# 'advanced' configuration file format available in v6 and up. The default is to use the
+# 'legacy' format to not change config files for existing users of this role out of the
+# blue.  More information on the different formats on the rsyslog website:
+# https://www.rsyslog.com/doc/v8-stable/configuration/conf_formats.html
+rsyslog_config_file_format: legacy
 ```
 
 ## [Requirements](#requirements)

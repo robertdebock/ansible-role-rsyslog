@@ -70,3 +70,10 @@
       - rsyslog_deploy_default_config is defined
       - rsyslog_deploy_default_config | type_debug == "bool"
     quiet: yes
+
+- name: test if rsyslog_config_file_format is set correctly
+  assert:
+    that:
+      - rsyslog_config_file_format is defined
+      - rsyslog_config_file_format in ['legacy', 'advanced']
+    quiet: yes
