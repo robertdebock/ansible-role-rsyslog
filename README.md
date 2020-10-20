@@ -74,10 +74,10 @@ rsyslog_remote_tcp: yes
 # If rsylog_remote is set, destination port to use.
 rsyslog_remote_port: 514
 
-# Set the mode for new directories
+# Set the mode for new directories; only available in legacy template.
 rsyslog_dircreatemode: "0700"
 
-# Set the mode for new files
+# Set the mode for new files; only available in legacy template.
 rsyslog_filecreatemode: "0644"
 
 # Set the mods enabled
@@ -189,6 +189,7 @@ I'd like to thank everybody that made contributions to this repository. It motiv
 
 - [foonix](https://github.com/foonix)
 - [benformosa](https://github.com/benformosa)
+- [wzzrd](https://github.com/wzzrd)
 
 ## [Author Information](#author-information)
 
