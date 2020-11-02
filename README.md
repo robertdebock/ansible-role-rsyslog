@@ -54,6 +54,9 @@ These variables are set in `defaults/main.yml`:
 ---
 # defaults file for rsyslog
 
+# Set rsyslog_enable to false to completely disable the role
+rsyslog_enable: yes
+
 # To configure a server to reveice logs, set rsyslog_receiver to yes.
 # Not setting this value will not configure the server tor receive logs.
 # rsyslog_receiver: yes

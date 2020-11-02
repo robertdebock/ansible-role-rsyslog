@@ -4,32 +4,37 @@
   include_tasks: assert.yml
   run_once: yes
 
-- name: uninstall conflicting systemd-logger
-  package:
-    name: systemd-logger
-    state: absent
+- name: manage ryslog
+  block:
 
-- name: install rsyslog
-  package:
-    name: "{{ rsyslog_packages }}"
-    state: present
+    - name: uninstall conflicting systemd-logger
+      package:
+        name: systemd-logger
+        state: absent
 
-- name: configuring rsyslog
-  template:
-    src: "{{ rsyslog_config_file_format }}_rsyslog.conf.j2"
-    dest: /etc/rsyslog.conf
-    mode: "0644"
-  notify:
-    - restart rsyslog
+    - name: install rsyslog
+      package:
+        name: "{{ rsyslog_packages }}"
+        state: present
 
-- name: make configuration directory
-  file:
-    name: /etc/rsyslog.d/
-    state: directory
-    mode: "0755"
+    - name: configuring rsyslog
+      template:
+        src: "{{ rsyslog_config_file_format }}_rsyslog.conf.j2"
+        dest: /etc/rsyslog.conf
+        mode: "0644"
+      notify:
+        - restart rsyslog
 
-- name: start and enable rsyslog
-  service:
-    name: "{{ rsyslog_service }}"
-    state: started
-    enabled: yes
+    - name: make configuration directory
+      file:
+        name: /etc/rsyslog.d/
+        state: directory
+        mode: "0755"
+
+    - name: start and enable rsyslog
+      service:
+        name: "{{ rsyslog_service }}"
+        state: started
+        enabled: yes
+
+  when: rsyslog_enable | bool
