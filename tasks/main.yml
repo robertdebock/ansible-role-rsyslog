@@ -14,11 +14,12 @@
     name: "{{ rsyslog_packages }}"
     state: present
 
-- name: configuring rsyslog
+- name: configuring default rsyslog
   template:
     src: "{{ rsyslog_config_file_format }}_rsyslog.conf.j2"
     dest: /etc/rsyslog.conf
     mode: "0644"
+  when: rsyslog_deploy_default_config == True
   notify:
     - restart rsyslog
 
@@ -27,6 +28,15 @@
     name: /etc/rsyslog.d/
     state: directory
     mode: "0755"
+
+- name: configuring {{ rsyslog_forward_rule_name }} rsyslog forward rule
+  template:
+    src: "forward_rule.conf.j2"
+    dest: /etc/rsyslog.d/{{ rsyslog_forward_rule_name }}.conf
+    mode: "0644"
+  when: rsyslog_deploy_default_config == False
+  notify:
+    - restart rsyslog
 
 - name: start and enable rsyslog
   service:
