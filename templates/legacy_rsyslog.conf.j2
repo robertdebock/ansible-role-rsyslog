@@ -37,7 +37,7 @@ $IncludeConfig /etc/rsyslog.d/*.conf
 
 # Turn off message reception via local log socket;
 # local messages are retrieved through imjournal now.
-{{ '#' if 'imuxsock' in rsyslog_mods else '' }}$OmitLocalLogging on
+{{ '#' if not 'imuxsock' in rsyslog_mods else '' }}$OmitLocalLogging on
 
 # File to store the position in the journal
 {{ '#' if not 'imjournal' in rsyslog_mods else '' }}$IMJournalStateFile imjournal.state
