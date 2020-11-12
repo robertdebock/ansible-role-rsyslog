@@ -22,10 +22,10 @@ rsyslog_remote_tcp: yes
 rsyslog_remote_port: 514
 
 # Set the mode for new directories; only available in legacy template.
-rsyslog_dircreatemode: "0700"
+rsyslog_dircreatemode: 0700
 
 # Set the mode for new files; only available in legacy template.
-rsyslog_filecreatemode: "0644"
+rsyslog_filecreatemode: 0644
 
 # Set the mods enabled
 rsyslog_mods:
@@ -42,3 +42,6 @@ rsyslog_deploy_default_config: yes
 # More information on the different formats on the rsyslog website:
 # https://www.rsyslog.com/doc/v8-stable/configuration/conf_formats.html
 rsyslog_config_file_format: legacy
+
+# The rule conf to name to add to /etc/rsyslog.d/
+# rsyslog_forward_rule_name: <to fill>

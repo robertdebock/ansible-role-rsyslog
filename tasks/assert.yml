@@ -36,16 +36,14 @@
   assert:
     that:
       - rsyslog_dircreatemode is defined
-      - rsyslog_dircreatemode | int
-      - rsyslog_dircreatemode | regex_search('^0')
+      - rsyslog_dircreatemode is number
     quiet: yes
 
 - name: test if rsyslog_filecreatemode is set correctly
   assert:
     that:
       - rsyslog_filecreatemode is defined
-      - rsyslog_filecreatemode | int
-      - rsyslog_filecreatemode | regex_search('^0')
+      - rsyslog_filecreatemode is number
     quiet: yes
 
 - name: test if rsyslog_mods is set correctly
@@ -70,6 +68,14 @@
       - rsyslog_deploy_default_config is defined
       - rsyslog_deploy_default_config | type_debug == "bool"
     quiet: yes
+
+- name: test if rsyslog_forward_rule_name is set correctly
+  assert:
+    that:
+      - rsyslog_forward_rule_name is defined
+    quiet: yes
+  when:
+    - rsyslog_deploy_default_config == "no"
 
 - name: test if rsyslog_config_file_format is set correctly
   assert:
