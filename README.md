@@ -82,6 +82,9 @@ rsyslog_deploy_default_config: yes
 # More information on the different formats on the rsyslog website:
 # https://www.rsyslog.com/doc/v8-stable/configuration/conf_formats.html
 rsyslog_config_file_format: legacy
+
+# The rule conf to name to add to /etc/rsyslog.d/
+# rsyslog_forward_rule_name: <to fill>
 ```
 
 ## [Requirements](#requirements)
@@ -174,6 +177,7 @@ Apache-2.0
 I'd like to thank everybody that made contributions to this repository. It motivates me, improves the code and is just fun to collaborate.
 
 - [foonix](https://github.com/foonix)
+- [billmetangmo](https://github.com/billmetangmo)
 - [benformosa](https://github.com/benformosa)
 - [wzzrd](https://github.com/wzzrd)
 

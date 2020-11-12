@@ -36,14 +36,14 @@
   assert:
     that:
       - rsyslog_dircreatemode is defined
-      - rsyslog_dircreatemode is number
+      - rsyslog_dircreatemode | int
     quiet: yes
 
 - name: test if rsyslog_filecreatemode is set correctly
   assert:
     that:
       - rsyslog_filecreatemode is defined
-      - rsyslog_filecreatemode is number
+      - rsyslog_filecreatemode | int
     quiet: yes
 
 - name: test if rsyslog_mods is set correctly
