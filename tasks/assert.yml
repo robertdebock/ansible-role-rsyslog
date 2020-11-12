@@ -27,7 +27,7 @@
   assert:
     that:
       - rsyslog_remote_port is defined
-      - rsyslog_remote_port | int
+      - rsyslog_remote_port is number
       - rsyslog_remote_port | int > 0
       - rsyslog_remote_port | int < 65536
     quiet: yes
@@ -58,7 +58,7 @@
   assert:
     that:
       - item | length >0
-      - item in ["imuxsock", "imjournal", "imklog", "immark"]
+      - item in [ "imuxsock", "imjournal", "imklog", "immark" ]
     quiet: yes
   loop: "{{ rsyslog_mods }}"
 
@@ -81,5 +81,5 @@
   assert:
     that:
       - rsyslog_config_file_format is defined
-      - rsyslog_config_file_format in ["legacy", "advanced"]
+      - rsyslog_config_file_format in [ "legacy", "advanced" ]
     quiet: yes
