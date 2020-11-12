@@ -36,7 +36,7 @@
   assert:
     that:
       - rsyslog_dircreatemode is defined
-      - rsyslog_dircreatemode is number
+      - rsyslog_dircreatemode | int
       - rsyslog_dircreatemode | regex_search('^0')
     quiet: yes
 
