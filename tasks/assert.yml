@@ -44,7 +44,7 @@
   assert:
     that:
       - rsyslog_filecreatemode is defined
-      - rsyslog_filecreatemode is number
+      - rsyslog_filecreatemode | int
       - rsyslog_filecreatemode | regex_search('^0')
     quiet: yes
 
