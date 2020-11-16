@@ -8,13 +8,6 @@
   when:
     - rsyslog_receiver is defined
 
-- name: test if rsyslog_remote is set correctly
-  assert:
-    that:
-    quiet: yes
-  when:
-    - rsyslog_remote is defined
-
 - name: test if rsyslog_remote_selector is set correctly
   assert:
     that:
