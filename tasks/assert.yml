@@ -11,7 +11,6 @@
 - name: test if rsyslog_remote is set correctly
   assert:
     that:
-      - rsyslog_remote | length > 0
     quiet: yes
   when:
     - rsyslog_remote is defined
@@ -20,7 +19,6 @@
   assert:
     that:
       - rsyslog_remote_selector is defined
-      - rsyslog_remote_selector | length > 0
     quiet: yes
 
 - name: test if rsyslog_remote_port is set correctly
@@ -50,14 +48,13 @@
   assert:
     that:
       - rsyslog_mods is defined
-      - rsyslog_mods | length > 0
       - rsyslog_mods is iterable
     quiet: yes
 
 - name: test if item in rsyslog_mods is set correctly
   assert:
     that:
-      - item | length >0
+      - item is defined
       - item in [ "imuxsock", "imjournal", "imklog", "immark" ]
     quiet: yes
   loop: "{{ rsyslog_mods }}"
