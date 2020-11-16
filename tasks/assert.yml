@@ -3,7 +3,7 @@
   assert:
     that:
       - rsyslog_receiver is defined
-      - rsyslog_receiver | type_debug == "bool"
+      - rsyslog_receiver is boolean
     quiet: yes
   when:
     - rsyslog_receiver is defined
@@ -66,7 +66,7 @@
   assert:
     that:
       - rsyslog_deploy_default_config is defined
-      - rsyslog_deploy_default_config | type_debug == "bool"
+      - rsyslog_deploy_default_config is boolean
     quiet: yes
 
 - name: test if rsyslog_forward_rule_name is set correctly
