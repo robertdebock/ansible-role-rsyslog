@@ -26,22 +26,22 @@
     that:
       - rsyslog_remote_port is defined
       - rsyslog_remote_port is number
-      - rsyslog_remote_port | int > 0
-      - rsyslog_remote_port | int < 65536
+      - rsyslog_remote_port > 0
+      - rsyslog_remote_port < 65536
     quiet: yes
 
 - name: test if rsyslog_dircreatemode is set correctly
   assert:
     that:
       - rsyslog_dircreatemode is defined
-      - rsyslog_dircreatemode | int
+      - rsyslog_dircreatemode
     quiet: yes
 
 - name: test if rsyslog_filecreatemode is set correctly
   assert:
     that:
       - rsyslog_filecreatemode is defined
-      - rsyslog_filecreatemode | int
+      - rsyslog_filecreatemode
     quiet: yes
 
 - name: test if rsyslog_mods is set correctly
