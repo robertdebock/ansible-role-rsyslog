@@ -1,4 +1,5 @@
 ---
+
 - name: test if rsyslog_receiver is set correctly
   assert:
     that:
