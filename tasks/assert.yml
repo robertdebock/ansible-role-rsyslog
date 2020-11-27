@@ -13,6 +13,7 @@
   assert:
     that:
       - rsyslog_remote_selector is defined
+      - rsyslog_remote_selector is string
     quiet: yes
 
 - name: test if rsyslog_remote_port is set correctly
@@ -28,14 +29,14 @@
   assert:
     that:
       - rsyslog_dircreatemode is defined
-      - rsyslog_dircreatemode
+      - rsyslog_dircreatemode is number
     quiet: yes
 
 - name: test if rsyslog_filecreatemode is set correctly
   assert:
     that:
       - rsyslog_filecreatemode is defined
-      - rsyslog_filecreatemode
+      - rsyslog_filecreatemode is number
     quiet: yes
 
 - name: test if rsyslog_mods is set correctly
@@ -49,6 +50,7 @@
   assert:
     that:
       - item is defined
+      - item is string
       - item in [ "imuxsock", "imjournal", "imklog", "immark" ]
     quiet: yes
   loop: "{{ rsyslog_mods }}"
@@ -64,6 +66,7 @@
   assert:
     that:
       - rsyslog_forward_rule_name is defined
+      - rsyslog_forward_rule_name is string
     quiet: yes
   when:
     - rsyslog_deploy_default_config == "no"
@@ -72,5 +75,6 @@
   assert:
     that:
       - rsyslog_config_file_format is defined
+      - rsyslog_config_file_format is string
       - rsyslog_config_file_format in [ "legacy", "advanced" ]
     quiet: yes
