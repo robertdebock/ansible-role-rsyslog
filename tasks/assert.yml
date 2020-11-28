@@ -29,7 +29,7 @@
   assert:
     that:
       - rsyslog_dircreatemode is defined
-      - rsyslog_dircreatemode is number
+      - rsyslog_dircreatemode is string
     quiet: yes
 
 - name: test if rsyslog_filecreatemode is set correctly
