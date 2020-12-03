@@ -13,7 +13,7 @@
 - name: install rsyslog
   package:
     name: "{{ rsyslog_packages }}"
-    state: present
+    state: "{{ rsyslog_package_state }}"
 
 - name: configuring default rsyslog
   template:
