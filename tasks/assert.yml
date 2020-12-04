@@ -78,3 +78,11 @@
       - rsyslog_config_file_format is string
       - rsyslog_config_file_format in [ "legacy", "advanced" ]
     quiet: yes
+
+- name: test if rsyslog_package_state is set correctly
+  assert:
+    that:
+      - rsyslog_package_state is defined
+      - rsyslog_package_state is string
+      - rsyslog_package_state in [ "present", "latest" ]
+    quiet: yes

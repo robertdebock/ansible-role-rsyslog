@@ -85,6 +85,10 @@ rsyslog_config_file_format: legacy
 
 # The rule conf to name to add to /etc/rsyslog.d/
 # rsyslog_forward_rule_name: <to fill>
+
+# Configure the rsyslog package to be `present`, or set to `latest` to install
+# the latest available version.
+rsyslog_package_state: present
 ```
 
 ## [Requirements](#requirements)
@@ -179,6 +183,7 @@ I'd like to thank everybody that made contributions to this repository. It motiv
 - [foonix](https://github.com/foonix)
 - [billmetangmo](https://github.com/billmetangmo)
 - [benformosa](https://github.com/benformosa)
+- [chancez](https://github.com/chancez)
 - [wzzrd](https://github.com/wzzrd)
 
 ## [Author Information](#author-information)

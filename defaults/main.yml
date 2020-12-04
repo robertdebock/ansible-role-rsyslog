@@ -46,6 +46,6 @@ rsyslog_config_file_format: legacy
 # The rule conf to name to add to /etc/rsyslog.d/
 # rsyslog_forward_rule_name: <to fill>
 
-# Configure the rsyslog package to be present, or set to latest to install the
-# latest available version.
+# Configure the rsyslog package to be `present`, or set to `latest` to install
+# the latest available version.
 rsyslog_package_state: present
