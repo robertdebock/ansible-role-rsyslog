@@ -1,7 +1,7 @@
 ---
 
 - name: test if rsyslog_receiver is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - rsyslog_receiver is defined
       - rsyslog_receiver is boolean
@@ -10,14 +10,14 @@
     - rsyslog_receiver is defined
 
 - name: test if rsyslog_remote_selector is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - rsyslog_remote_selector is defined
       - rsyslog_remote_selector is string
     quiet: yes
 
 - name: test if rsyslog_remote_port is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - rsyslog_remote_port is defined
       - rsyslog_remote_port is number
@@ -26,28 +26,28 @@
     quiet: yes
 
 - name: test if rsyslog_dircreatemode is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - rsyslog_dircreatemode is defined
       - rsyslog_dircreatemode is string
     quiet: yes
 
 - name: test if rsyslog_filecreatemode is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - rsyslog_filecreatemode is defined
       - rsyslog_filecreatemode is string
     quiet: yes
 
 - name: test if rsyslog_mods is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - rsyslog_mods is defined
       - rsyslog_mods is iterable
     quiet: yes
 
 - name: test if item in rsyslog_mods is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - item is defined
       - item is string
@@ -56,14 +56,14 @@
   loop: "{{ rsyslog_mods }}"
 
 - name: test if rsyslog_deploy_default_config is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - rsyslog_deploy_default_config is defined
       - rsyslog_deploy_default_config is boolean
     quiet: yes
 
 - name: test if rsyslog_forward_rule_name is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - rsyslog_forward_rule_name is defined
       - rsyslog_forward_rule_name is string
@@ -72,7 +72,7 @@
     - rsyslog_deploy_default_config == "no"
 
 - name: test if rsyslog_config_file_format is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - rsyslog_config_file_format is defined
       - rsyslog_config_file_format is string
@@ -80,7 +80,7 @@
     quiet: yes
 
 - name: test if rsyslog_package_state is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - rsyslog_package_state is defined
       - rsyslog_package_state is string
