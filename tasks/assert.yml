@@ -4,7 +4,7 @@
   ansible.builtin.assert:
     that:
       - rsyslog_receiver is defined
-      - rsyslog_receiver is boolean
+      - rsyslog_receiver | bool
     quiet: yes
   when:
     - rsyslog_receiver is defined
@@ -59,7 +59,7 @@
   ansible.builtin.assert:
     that:
       - rsyslog_deploy_default_config is defined
-      - rsyslog_deploy_default_config is boolean
+      - rsyslog_deploy_default_config | bool
     quiet: yes
 
 - name: test if rsyslog_forward_rule_name is set correctly
