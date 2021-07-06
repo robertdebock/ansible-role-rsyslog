@@ -33,6 +33,9 @@ include(file="/etc/rsyslog.d/*.conf" mode="optional")
 # provides --MARK-- message capability
 {{ '' if 'immark' in rsyslog_mods else '#' }}module(load="immark")
 
+# Provides access to specific log file
+{{ '' if 'imfile' in rsyslog_mods else '#' }}module(load="imfile")
+
 # Provides UDP syslog reception
 # for parameters see http://www.rsyslog.com/doc/imudp.html
 {{ '' if rsyslog_receiver is defined else '#' }}module(load="imudp") # needs to be done just once
