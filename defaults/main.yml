@@ -49,3 +49,5 @@ rsyslog_config_file_format: legacy
 # Configure the rsyslog package to be `present`, or set to `latest` to install
 # the latest available version.
 rsyslog_package_state: present
+
+rsyslog_preservefqdn: false

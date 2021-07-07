@@ -16,6 +16,10 @@ module(load="builtin:omfile" Template="RSYSLOG_TraditionalFileFormat")
 # Include all config files in /etc/rsyslog.d/
 include(file="/etc/rsyslog.d/*.conf" mode="optional")
 
+{% if rsyslog_preservefqdn %}
+$PreserveFQDN on
+{% endif %}
+
 #### MODULES ####
 
 # Provides support for local system logging (e.g. via logger command)
