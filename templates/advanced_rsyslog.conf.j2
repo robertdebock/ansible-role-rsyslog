@@ -50,36 +50,12 @@ $PreserveFQDN on
 {{ '' if rsyslog_receiver is defined else '#' }}module(load="imtcp") # needs to be done just once
 {{ '' if rsyslog_receiver is defined else '#' }}input(type="imtcp" port="514")
 
-{% if rsyslog_deploy_default_config %}
+{% if rsyslog_default_rules|length > 0 %}
 #### RULES ####
-
-# Log all kernel messages to the console.
-# Logging much else clutters up the screen.
-#kern.*                                                 /dev/console
-
-# Log anything (except mail) of level info or higher.
-# Don't log private authentication messages!
-*.info;mail.none;authpriv.none;cron.none                /var/log/messages
-
-# The authpriv file has restricted access.
-authpriv.*                                              /var/log/secure
-
-# Log all the mail messages in one place.
-mail.*                                                  -/var/log/maillog
-
-
-# Log cron stuff
-cron.*                                                  /var/log/cron
-
-# Everybody gets emergency messages
-*.emerg                                                 :omusrmsg:*
-
-# Save news errors of level crit and higher in a special file.
-uucp,news.crit                                          /var/log/spooler
-
-# Save boot messages also to boot.log
-local7.*                                                /var/log/boot.log
-
+{% for item in rsyslog_default_rules | default([]) %}
+{{ item.rule }} {{ item.logpath }}
+{% endfor %}
+{% endif %}
 
 {% if rsyslog_remote is defined %}
 # ### sample forwarding rule ###
@@ -95,6 +71,5 @@ action(type="omfwd"
 # # remote_host is: name/ip, e.g. 192.168.0.1, port optional e.g. 10514
 #Target="remote_host" Port="XXX" Protocol="tcp")
 Target="{{ rsyslog_remote }}" Port="{{ rsyslog_remote_port }}" Protocol="{{ 'tcp' if rsyslog_remote_tcp else 'udp' }}")
-{% endif %}
 # ### end of the forwarding rule ###
 {% endif %}
