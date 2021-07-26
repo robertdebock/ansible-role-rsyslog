@@ -104,6 +104,17 @@ rsyslog_package_state: present
 # part from a name that is within the same domain as the receiving system is
 # stripped. If set to on, full names are always used.
 rsyslog_preservefqdn: false
+
+# Configure additional config files in /etc/rsyslog.d
+# Example:
+# rsyslog_rsyslog_d_files:
+#   000-splunk:
+#     content: |
+#       auth,authpriv.* action(type="omfwd"
+#                              target="splunk"
+#                              port="514"
+#                              protocol="tcp")
+rsyslog_rsyslog_d_files: []
 ```
 
 ## [Requirements](#requirements)
