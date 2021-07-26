@@ -75,12 +75,10 @@ $PreserveFQDN on
 #
 {{ '#' if not 'imjournal' in rsyslog_mods else '' }}$IMJournalStateFile imjournal.state
 
-
-{% if rsyslog_deploy_default_config %}
 ###############
 #### RULES ####
 ###############
-
+{% if rsyslog_deploy_default_config %}
 # Log all kernel messages to the console.
 # Logging much else clutters up the screen.
 #kern.*                                                 /dev/console
@@ -107,13 +105,18 @@ uucp,news.crit                                          /var/log/spooler
 
 # Save boot messages also to boot.log
 local7.*                                                /var/log/boot.log
-
+{% endif %}
+{% if rsyslog_default_rules is defined %}
+{% for item in rsyslog_default_rules %}
+{{ item.rule }} {{ item.logpath }}
+{% endfor %}
+{% endif %}
 
 {% if rsyslog_remote is defined %}
 #########################
 #### FORWARDING RULE ####
 #########################
-#
+
 # The statement between the begin ... end define a SINGLE forwarding
 # rule. They belong together, do NOT split them. If you create multiple
 # forwarding rules, duplicate the whole block!
@@ -128,9 +131,6 @@ local7.*                                                /var/log/boot.log
 #$ActionResumeRetryCount -1    # infinite retries if host is down
 # remote host is: name/ip:port, e.g. 192.168.0.1:514, port optional
 #*.* @@remote-host:514
-#
 {{ rsyslog_remote_selector }} {{ '@@' if rsyslog_remote_tcp else '@' }}{{ rsyslog_remote }}:{{ rsyslog_remote_port }}
-{% endif %}
 # ### end of the forwarding rule ###
 {% endif %}
-

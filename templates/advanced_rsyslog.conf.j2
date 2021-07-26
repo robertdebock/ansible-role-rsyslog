@@ -35,7 +35,6 @@
 {{ '' if rsyslog_receiver is defined else '#' }}module(load="imtcp") # needs to be done just once
 {{ '' if rsyslog_receiver is defined else '#' }}input(type="imtcp" port="514")
 
-
 ###########################
 #### GLOBAL DIRECTIVES ####
 ###########################
@@ -69,12 +68,10 @@ $PreserveFQDN on
 #
 include(file="/etc/rsyslog.d/*.conf" mode="optional")
 
-
-{% if rsyslog_deploy_default_config %}
 ###############
 #### RULES ####
 ###############
-
+{% if rsyslog_deploy_default_config %}
 # Log all kernel messages to the console.
 # Logging much else clutters up the screen.
 #kern.*                                                 /dev/console
@@ -89,7 +86,6 @@ authpriv.*                                              /var/log/secure
 # Log all the mail messages in one place.
 mail.*                                                  -/var/log/maillog
 
-
 # Log cron stuff
 cron.*                                                  /var/log/cron
 
@@ -101,12 +97,18 @@ uucp,news.crit                                          /var/log/spooler
 
 # Save boot messages also to boot.log
 local7.*                                                /var/log/boot.log
-
+{% endif %}
+{% if rsyslog_default_rules is defined %}
+{% for item in rsyslog_default_rules %}
+{{ item.rule }} {{ item.logpath }}
+{% endfor %}
+{% endif %}
 
 {% if rsyslog_remote is defined %}
 #########################
 #### FORWARDING RULE ####
 #########################
+
 action(type="omfwd"
 # # An on-disk queue is created for this action. If the remote host is
 # # down, messages are spooled to disk and sent when it is up again.
@@ -119,6 +121,5 @@ action(type="omfwd"
 # # remote_host is: name/ip, e.g. 192.168.0.1, port optional e.g. 10514
 #Target="remote_host" Port="XXX" Protocol="tcp")
 Target="{{ rsyslog_remote }}" Port="{{ rsyslog_remote_port }}" Protocol="{{ 'tcp' if rsyslog_remote_tcp else 'udp' }}")
-{% endif %}
 # ### end of the forwarding rule ###
 {% endif %}
