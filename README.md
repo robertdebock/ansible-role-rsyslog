@@ -115,6 +115,10 @@ rsyslog_preservefqdn: false
 #                              port="514"
 #                              protocol="tcp")
 rsyslog_rsyslog_d_files: []
+
+# Avoid sd_journal_get_cursor() failed: Cannot assign requested address messages
+# due to logrotate
+rsyslog_workaroundjournalbug: false
 ```
 
 ## [Requirements](#requirements)

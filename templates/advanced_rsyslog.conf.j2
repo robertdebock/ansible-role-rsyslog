@@ -16,7 +16,7 @@
 
 # Provides access to the systemd journal
 # And provides file to store the position in the journal
-{{ '' if 'imjournal' in rsyslog_mods else '#' }}module(load="imjournal" StateFile="imjournal.state")
+{{ '' if 'imjournal' in rsyslog_mods else '#' }}module(load="imjournal" StateFile="imjournal.state"{{ 'WorkAroundJournalBug="on"' if rsyslog_workaroundjournalbug else '' }})
 
 # provides kernel logging support
 {{ '' if 'imklog' in rsyslog_mods else '#' }}module(load="imklog")
