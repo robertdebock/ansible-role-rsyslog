@@ -79,3 +79,6 @@ rsyslog_rsyslog_d_files: []
 # Avoid sd_journal_get_cursor() failed: Cannot assign requested address messages
 # due to logrotate
 rsyslog_workaroundjournalbug: false
+
+# Turns off message reception via local log socket
+rsyslog_imuxsock_syssock: false

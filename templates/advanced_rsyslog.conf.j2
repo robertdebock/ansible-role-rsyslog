@@ -12,11 +12,11 @@
 # Provides support for local system logging (e.g. via logger command)
 # And turns off message reception via local log socket;
 # Local messages are retrieved through imjournal now.
-{{ '' if 'imuxsock' in rsyslog_mods else '#' }}module(load="imuxsock" SysSock.Use="off")
+{{ '' if 'imuxsock' in rsyslog_mods else '#' }}module(load="imuxsock"{{ ' SysSock.Use="off"' if not rsyslog_imuxsock_syssock else '' }})
 
 # Provides access to the systemd journal
 # And provides file to store the position in the journal
-{{ '' if 'imjournal' in rsyslog_mods else '#' }}module(load="imjournal" StateFile="imjournal.state"{{ 'WorkAroundJournalBug="on"' if rsyslog_workaroundjournalbug else '' }})
+{{ '' if 'imjournal' in rsyslog_mods else '#' }}module(load="imjournal" StateFile="imjournal.state"{{ ' WorkAroundJournalBug="on"' if rsyslog_workaroundjournalbug else '' }})
 
 # provides kernel logging support
 {{ '' if 'imklog' in rsyslog_mods else '#' }}module(load="imklog")
