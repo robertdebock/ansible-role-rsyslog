@@ -186,6 +186,7 @@ I'd like to thank everybody that made contributions to this repository. It motiv
 - [billmetangmo](https://github.com/billmetangmo)
 - [benformosa](https://github.com/benformosa)
 - [chancez](https://github.com/chancez)
+- [bajzekm](https://github.com/bajzekm)
 - [wzzrd](https://github.com/wzzrd)
 
 ## [Author Information](#author-information)
