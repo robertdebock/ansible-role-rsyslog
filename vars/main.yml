@@ -1,6 +1,9 @@
 ---
 # vars file for rsyslog
 
+rsyslog_packages:
+  - rsyslog
+
 rsyslog_service: rsyslog
 
 _rsyslog_work_directory:
