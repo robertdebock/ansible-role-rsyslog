@@ -1,0 +1,20 @@
+{% if rsyslog_remote is defined %}
+#########################
+#### FORWARDING RULE ####
+#########################
+
+action(type="omfwd"
+{% if rsyslog_advanced_remote_settings | length > 0 %}
+{% for param,value in rsyslog_advanced_remote_settings.items() %}
+    {{ param }}="{{ value }}"
+{% endfor %}
+{% endif %}
+    Target="{{ rsyslog_remote }}"
+    Port="{{ rsyslog_remote_port }}"
+    Protocol="{{ 'tcp' if rsyslog_remote_tcp else 'udp' }}"
+{% if rsyslog_remote_template  %}
+    Template="{{ rsyslog_remote_template }}"
+{% endif %}
+)
+# ### end of the forwarding rule ###
+{% endif %}

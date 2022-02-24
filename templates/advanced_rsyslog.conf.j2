@@ -18,8 +18,8 @@
 # And provides file to store the position in the journal
 {{ '' if 'imjournal' in rsyslog_mods else '#' }}module(load="imjournal" StateFile="imjournal.state"{{ ' WorkAroundJournalBug="on"' if rsyslog_workaroundjournalbug else '' }})
 
-# provides kernel logging support
-{{ '' if 'imklog' in rsyslog_mods else '#' }}module(load="imklog")
+# provides kernel logging support and enable non-kernel klog messages
+{{ '' if 'imklog' in rsyslog_mods else '#' }}module(load="imklog" permitnonkernelfacility="on")
 
 # provides --MARK-- message capability
 {{ '' if 'immark' in rsyslog_mods else '#' }}module(load="immark")
@@ -35,65 +35,49 @@
 {{ '' if rsyslog_receiver else '#' }}module(load="imtcp") # needs to be done just once
 {{ '' if rsyslog_receiver else '#' }}input(type="imtcp" port="514")
 
+#
+# Set defaults for all log files.
+#
+module(
+    load="builtin:omfile"
+    template="{{ rsyslog_default_template }}"
+    dirCreateMode="{{ rsyslog_dircreatemode }}"
+    fileCreateMode="{{ rsyslog_filecreatemode }}"
+{% if rsyslog_default_file_owner is defined %}
+    fileOwner="{{ rsyslog_default_file_owner }}"
+{% endif %}
+{% if rsyslog_default_file_group %}
+    fileGroup="{{ rsyslog_default_file_group }}"
+{% endif %}
+)
+
 ###########################
 #### GLOBAL DIRECTIVES ####
 ###########################
 
-#
-# Use traditional timestamp format.
-# To enable high precision timestamps, comment out the following line.
-#
-module(load="builtin:omfile" Template="RSYSLOG_TraditionalFileFormat")
-
-#
-# Set the default permissions for all log files.
-#
-$FileCreateMode {{ rsyslog_filecreatemode }}
-$DirCreateMode {{ rsyslog_dircreatemode }}
-
-#
-# Where to place spool and state files
-#
-global(workDirectory="{{ rsyslog_work_directory }}")
-
+global(
 {% if rsyslog_preservefqdn %}
-#
-# Use FQDN (usefull when sending logs to another system)
-#
-$PreserveFQDN on
+  preserveFQDN="on"
 {% endif %}
+  workDirectory="{{ rsyslog_work_directory }}"
+{% if rsyslog_advanced_global_settings | length > 0 %}
+{% for param,value in rsyslog_advanced_global_settings.items() %}
+  {{ param }}="{{ value }}"
+{% endfor %}
+{% endif %}
+)
 
 #
 # Include all config files in /etc/rsyslog.d/
 #
 include(file="/etc/rsyslog.d/*.conf" mode="optional")
 
+{% if rsyslog_default_rules | length > 0 %}
 ###############
 #### RULES ####
 ###############
-
-{% if rsyslog_default_rules is defined %}
 {% for item in rsyslog_default_rules %}
 {{ item.rule }} {{ item.logpath }}
 {% endfor %}
 {% endif %}
 
-{% if rsyslog_remote is defined %}
-#########################
-#### FORWARDING RULE ####
-#########################
-
-action(type="omfwd"
-# # An on-disk queue is created for this action. If the remote host is
-# # down, messages are spooled to disk and sent when it is up again.
-#queue.filename="fwdRule1"       # unique name prefix for spool files
-#queue.maxdiskspace="1g"         # 1gb space limit (use as much as possible)
-#queue.saveonshutdown="on"       # save messages to disk on shutdown
-#queue.type="LinkedList"         # run asynchronously
-#action.resumeRetryCount="-1"    # infinite retries if host is down
-# # Remote Logging (we use TCP for reliable delivery)
-# # remote_host is: name/ip, e.g. 192.168.0.1, port optional e.g. 10514
-#Target="remote_host" Port="XXX" Protocol="tcp")
-Target="{{ rsyslog_remote }}" Port="{{ rsyslog_remote_port }}" Protocol="{{ 'tcp' if rsyslog_remote_tcp else 'udp' }}" {{ '' if not rsyslog_remote_template else 'template="' + rsyslog_remote_template + '"' }})
-# ### end of the forwarding rule ###
-{% endif %}

@@ -34,6 +34,40 @@ rsyslog_mods:
 # Configure rsyslog minimally (may be in conflict with custom configuration files)
 rsyslog_deploy_default_config: yes
 
+rsyslog_default_template: "RSYSLOG_TraditionalFileFormat"
+# rsyslog_default_file_owner: ''
+# rsyslog_default_file_group: ''
+
+#
+# https://www.rsyslog.com/doc/v8-stable/rainerscript/global.html
+# rsyslog_advanced_global_settings:
+#   privdrop.group.name: "syslog"
+#   privdrop.user.name: "syslog"
+#   dropMsgsWithMaliciousDNSPtrRecords: "on"
+#   maxMessageSize: "64k"
+#   net.ipprotocol: "ipv4-only"
+#   net.aclAddHostnameOnFail: "off"
+#   net.aclResolveHostname: "off"
+#   net.enableDNS: "on"
+#   parser.parseHostnameAndTag: "on"
+#   parser.permitSlashInProgramName: "on"
+#   umask: "0022"
+rsyslog_advanced_global_settings: []
+
+# # An on-disk queue is created for this action. If the remote host is
+# # down, messages are spooled to disk and sent when it is up again.
+# rsyslog_advanced_remote_settings:
+#  "queue.filename": "fwdRule1"       # unique name prefix for spool files
+#  "queue.maxdiskspace": "1g"         # 1gb space limit (use as much as possible)
+#  "queue.saveonshutdown": "on"       # save messages to disk on shutdown
+#  "queue.type": "LinkedList"         # run asynchronously
+#  "action.resumeRetryCount": "-1"    # infinite retries if host is down
+rsyslog_advanced_remote_settings: []
+
+# rsyslog_remove_default_rules:
+#   - {file: "/etc/rsyslog.d/50-default.conf", state: "absent" }
+# rsyslog_remove_default_rules: []
+
 # Default rsyslogd rules
 rsyslog_default_rules:
   - { rule: '*.info;mail.none;authpriv.none;cron.none', logpath: '/var/log/messages' }
