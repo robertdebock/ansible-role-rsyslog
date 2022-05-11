@@ -131,7 +131,6 @@ rsyslog_features: []
 
 # Default destination of rsyslog config file
 rsyslog_dest_conf_file: "/etc/rsyslog.conf"
-
 ```
 
 ## [Requirements](#requirements)
