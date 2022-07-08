@@ -131,6 +131,9 @@ rsyslog_features: []
 
 # Default destination of rsyslog config file
 rsyslog_dest_conf_file: "/etc/rsyslog.conf"
+
+# Enable / Disable option OmitLocalLogging
+rsyslog_omit_local_logging: yes
 ```
 
 ## [Requirements](#requirements)
