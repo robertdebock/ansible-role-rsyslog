@@ -168,7 +168,7 @@ This role has been tested on these [container images](https://hub.docker.com/u/r
 |amazon|Candidate|
 |el|8|
 |debian|all|
-|fedora|all|
+|fedora|36, 37|
 |opensuse|all|
 |ubuntu|all|
 
