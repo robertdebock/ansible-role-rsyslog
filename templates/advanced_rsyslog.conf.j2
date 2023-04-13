@@ -77,7 +77,7 @@ $PreserveFQDN on
 #
 # Include all config files in /etc/rsyslog.d/
 #
-include(file="/etc/rsyslog.d/*.conf" mode="optional")
+$IncludeConfig /etc/rsyslog.d/*.conf
 
 ###############
 #### RULES ####
