@@ -19,6 +19,7 @@
     that:
       - rsyslog_remote_selector is defined
       - rsyslog_remote_selector is string
+      - rsyslog_remote_selector is not none
     quiet: yes
 
 - name: assert | Test if rsyslog_remote_port is set correctly
@@ -35,6 +36,7 @@
     that:
       - rsyslog_dircreatemode is defined
       - rsyslog_dircreatemode is string
+      - rsyslog_dircreatemode is not none
     quiet: yes
 
 - name: assert | Test if rsyslog_filecreatemode is set correctly
@@ -42,6 +44,7 @@
     that:
       - rsyslog_filecreatemode is defined
       - rsyslog_filecreatemode is string
+      - rsyslog_filecreatemode is not none
     quiet: yes
 
 - name: assert | Test if rsyslog_mods is set correctly
@@ -72,6 +75,7 @@
     that:
       - rsyslog_forward_rule_name is defined
       - rsyslog_forward_rule_name is string
+      - rsyslog_forward_rule_name is not none
     quiet: yes
   when:
     - rsyslog_deploy_default_config == "no"
