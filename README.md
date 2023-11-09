@@ -2,9 +2,9 @@
 
 Install and configure rsyslog on your system.
 
-|GitHub|GitLab|Quality|Downloads|Version|
-|------|------|-------|---------|-------|
-|[![github](https://github.com/robertdebock/ansible-role-rsyslog/workflows/Ansible%20Molecule/badge.svg)](https://github.com/robertdebock/ansible-role-rsyslog/actions)|[![gitlab](https://gitlab.com/robertdebock-iac/ansible-role-rsyslog/badges/master/pipeline.svg)](https://gitlab.com/robertdebock-iac/ansible-role-rsyslog)|[![quality](https://img.shields.io/ansible/quality/22988)](https://galaxy.ansible.com/robertdebock/rsyslog)|[![downloads](https://img.shields.io/ansible/role/d/22988)](https://galaxy.ansible.com/robertdebock/rsyslog)|[![Version](https://img.shields.io/github/release/robertdebock/ansible-role-rsyslog.svg)](https://github.com/robertdebock/ansible-role-rsyslog/releases/)|
+|GitHub|GitLab|Downloads|Version|
+|------|------|---------|-------|
+|[![github](https://github.com/robertdebock/ansible-role-rsyslog/workflows/Ansible%20Molecule/badge.svg)](https://github.com/robertdebock/ansible-role-rsyslog/actions)|[![gitlab](https://gitlab.com/robertdebock-iac/ansible-role-rsyslog/badges/master/pipeline.svg)](https://gitlab.com/robertdebock-iac/ansible-role-rsyslog)|[![downloads](https://img.shields.io/ansible/role/d/24582)](https://galaxy.ansible.com/robertdebock/rsyslog)|[![Version](https://img.shields.io/github/release/robertdebock/ansible-role-rsyslog.svg)](https://github.com/robertdebock/ansible-role-rsyslog/releases/)|
 
 ## [Example Playbook](#example-playbook)
 
@@ -181,7 +181,7 @@ The minimum version of Ansible required is 2.12, tests have been done to:
 - The current version.
 - The development version.
 
-If you find issues, please register them in [GitHub](https://github.com/robertdebock/ansible-role-rsyslog/issues)
+If you find issues, please register them in [GitHub](https://github.com/robertdebock/ansible-role-rsyslog/issues).
 
 ## [License](#license)
 
