@@ -1,4 +1,4 @@
-# Ansible role [rsyslog](#rsyslog)
+# [Ansible role rsyslog](#rsyslog)
 
 Install and configure rsyslog on your system.
 
