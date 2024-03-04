@@ -59,7 +59,7 @@
     that:
       - item is defined
       - item is string
-      - item in [ "imuxsock", "imjournal", "imklog", "immark", "imfile" ]
+      - item in [ "imuxsock", "imjournal", "imklog", "immark", "imfile", "omrelp" ]
     quiet: yes
   loop: "{{ rsyslog_mods }}"
 

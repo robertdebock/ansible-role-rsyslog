@@ -15,6 +15,7 @@
 {{ '#' if not 'imklog'    in rsyslog_mods else '' }}$ModLoad imklog    # provides kernel logging support
 {{ '#' if not 'immark'    in rsyslog_mods else '' }}$ModLoad immark    # provides --MARK-- message capability
 {{ '#' if not 'imfile'    in rsyslog_mods else '' }}$ModLoad imfile    # provides access to specific log file
+{{ '#' if not 'omrelp'    in rsyslog_mods else '' }}$ModLoad omrelp    # supports sending syslog messages over the reliable RELP protocol
 
 # provides UDP syslog reception
 {{ '' if rsyslog_receiver else '#' }}$ModLoad imudp
