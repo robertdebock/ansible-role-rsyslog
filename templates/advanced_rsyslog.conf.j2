@@ -10,8 +10,10 @@
 #################
 
 # Provides support for local system logging (e.g. via logger command)
+{% if not rsyslog_imuxsock_syssock %}
 # And turns off message reception via local log socket;
 # Local messages are retrieved through imjournal now.
+{% endif %}
 {{ '' if 'imuxsock' in rsyslog_mods else '#' }}module(load="imuxsock"{{ ' SysSock.Use="off"' if not rsyslog_imuxsock_syssock else '' }})
 
 # Provides access to the systemd journal
@@ -79,17 +81,18 @@ $PreserveFQDN on
 #
 include(file="/etc/rsyslog.d/*.conf" mode="optional")
 
+{% if rsyslog_default_rules is defined and rsyslog_default_rules|length > 0 %}
+
 ###############
 #### RULES ####
 ###############
 
-{% if rsyslog_default_rules is defined %}
 {% for item in rsyslog_default_rules %}
 {{ item.rule }} {{ item.logpath }}
 {% endfor %}
 {% endif %}
 
-{% if rsyslog_remote is defined %}
+{% if rsyslog_remote is defined and rsyslog_remote|length > 0 %}
 #########################
 #### FORWARDING RULE ####
 #########################
@@ -105,6 +108,6 @@ action(type="omfwd"
 # # Remote Logging (we use TCP for reliable delivery)
 # # remote_host is: name/ip, e.g. 192.168.0.1, port optional e.g. 10514
 #Target="remote_host" Port="XXX" Protocol="tcp")
-Target="{{ rsyslog_remote }}" Port="{{ rsyslog_remote_port }}" Protocol="{{ 'tcp' if rsyslog_remote_tcp else 'udp' }}" {{ '' if not rsyslog_remote_template else 'template="' + rsyslog_remote_template + '"' }})
+Target="{{ rsyslog_remote }}" Port="{{ rsyslog_remote_port }}" Protocol="{{ 'tcp' if rsyslog_remote_tcp else 'udp' }}" {{ '' if not rsyslog_remote_template is defined else 'template="' + rsyslog_remote_template + '"' }})
 # ### end of the forwarding rule ###
 {% endif %}
