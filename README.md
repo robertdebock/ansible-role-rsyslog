@@ -63,10 +63,14 @@ rsyslog_remote_tcp: true
 # If rsylog_remote is set, destination port to use.
 rsyslog_remote_port: 514
 
-# Set the mode for new directories; only available in legacy template.
+# rsyslog_fileowner: syslog
+
+# rsyslog_filegroup: adm
+
+# Set the mode for new directories.
 rsyslog_dircreatemode: "0700"
 
-# Set the mode for new files; only available in legacy template.
+# Set the mode for new files.
 rsyslog_filecreatemode: "0644"
 
 # Set the mods enabled
