@@ -79,11 +79,12 @@ $PreserveFQDN on
 #
 include(file="/etc/rsyslog.d/*.conf" mode="optional")
 
+{% if rsyslog_default_rules is defined and rsyslog_default_rules|length > 0 %}
+
 ###############
 #### RULES ####
 ###############
 
-{% if rsyslog_default_rules is defined %}
 {% for item in rsyslog_default_rules %}
 {{ item.rule }} {{ item.logpath }}
 {% endfor %}
