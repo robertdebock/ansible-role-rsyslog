@@ -10,8 +10,10 @@
 #################
 
 # Provides support for local system logging (e.g. via logger command)
+{% if not rsyslog_imuxsock_syssock %}
 # And turns off message reception via local log socket;
 # Local messages are retrieved through imjournal now.
+{% endif %}
 {{ '' if 'imuxsock' in rsyslog_mods else '#' }}module(load="imuxsock"{{ ' SysSock.Use="off"' if not rsyslog_imuxsock_syssock else '' }})
 
 # Provides access to the systemd journal
