@@ -9,15 +9,15 @@ rsyslog_receiver: false
 # Not setting this variable will not forward logs.
 # rsyslog_remote: server1.example.com
 
-# If rsylog_remote is set, sets the "selector" pattern for determining which
+# If rsyslog_remote is set, sets the "selector" pattern for determining which
 # messages to send to the remote server.  Default "*.*" sends everything.
 # See `man rsyslog.conf`.
 rsyslog_remote_selector: "*.*"
 
-# If rsylog_remote is set, use TCP if true. UDP if false.
+# If rsyslog_remote is set, use TCP if true. UDP if false.
 rsyslog_remote_tcp: true
 
-# If rsylog_remote is set, destination port to use.
+# If rsyslog_remote is set, destination port to use.
 rsyslog_remote_port: 514
 
 # rsyslog_fileowner: syslog
@@ -29,6 +29,8 @@ rsyslog_dircreatemode: "0700"
 
 # Set the mode for new files.
 rsyslog_filecreatemode: "0644"
+
+# rsyslog_umask: "0022"
 
 # Set the mods enabled
 rsyslog_mods:
