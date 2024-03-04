@@ -79,7 +79,7 @@ rsyslog_rsyslog_d_files: []
 # due to logrotate
 rsyslog_workaroundjournalbug: false
 
-# Turns off message reception via local log socket
+# Message reception via local log socket
 rsyslog_imuxsock_syssock: false
 
 # Install additional rsyslog packages
