@@ -7,7 +7,7 @@
 # Remote Logging (we use TCP for reliable delivery)
 #
 
-{% if rsyslog_remote is defined  and rsyslog_config_file_format == 'legacy' %}
+{% if rsyslog_remote is defined and rsyslog_remote|length > 0 and rsyslog_config_file_format == 'legacy' %}
 # An on-disk queue is created for this action. If the remote host is
 # down, messages are spooled to disk and sent when it is up again.
 #$ActionQueueFileName fwdRule1 # unique name prefix for spool files
@@ -21,7 +21,7 @@
 {% endif %}
 # ### end of the forwarding rule ###
 
-{% if rsyslog_remote is defined and rsyslog_config_file_format == 'advanced' %}
+{% if rsyslog_remote is defined and rsyslog_remote|length > 0 and rsyslog_config_file_format == 'advanced' %}
 # ### sample forwarding rule ###
 action(type="omfwd"
 # # An on-disk queue is created for this action. If the remote host is

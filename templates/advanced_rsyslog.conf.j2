@@ -89,7 +89,7 @@ include(file="/etc/rsyslog.d/*.conf" mode="optional")
 {% endfor %}
 {% endif %}
 
-{% if rsyslog_remote is defined %}
+{% if rsyslog_remote is defined and rsyslog_remote|length > 0 %}
 #########################
 #### FORWARDING RULE ####
 #########################
