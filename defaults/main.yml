@@ -98,7 +98,7 @@ rsyslog_omit_local_logging: true
 # Allow using the traditional file format.
 rsyslog_traditional_file_format: true
 
-# Templates
+# Templates, only for advance
 rsyslog_templates: []
   # - params:
   #     name: "<name>"
@@ -109,6 +109,5 @@ rsyslog_templates: []
   #   # List of string
   #   descriptions: []
   #   # Example
-  #     - constant(value="Syslog MSG is: '")
-  #     - property(name="msg")
-  #     - constant(value="', ")
+  #     - "constant(value=\"Syslog MSG is: '\")"
+  #     - "property(name=\"msg\")"

@@ -97,10 +97,16 @@ include(file="/etc/rsyslog.d/*.conf" mode="optional")
 template(
     name="{{ item.params.name }}"
     type="{{ item.params.type }}"
-    {% if item.params.type == "string" %} string="{{ item.params.string }} {% endif %}
-    {% if item.params.type == "plugin" %} plugin="{{ item.params.plugin }}" {% endif %}
+{% if item.params.type == "string" %}
+    string="{{ item.params.string }}"
+{% endif %}
+{% if item.params.type == "plugin" %}
+    plugin="{{ item.params.plugin }}"
+{% endif %}
 ){% if item.params.type == "list" %} {
-    {% for item2 in item.descriptions %}{{item2}}{% endfor %}
+{% for item2 in item.descriptions %}
+    {{item2}}
+{% endfor %}
 }
 {% endif %}
 {% endfor %}

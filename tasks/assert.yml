@@ -121,10 +121,10 @@
 - name: assert | Test rsyslog_templates.params.type
   ansible.builtin.assert:
     that:
-      - item is defined
-      - item is string
-      - item in [ "list", "subtree", "string", "plugin" ]
+      - item.params.type is defined
+      - item.params.type is string
+      - item.params.type in [ "list", "subtree", "string", "plugin" ]
     quiet: true
-  loop: "{{ rsyslog_templates.params.type }}"
+  loop: "{{ rsyslog_templates }}"
   when:
     - rsyslog_templates
