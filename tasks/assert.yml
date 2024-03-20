@@ -117,3 +117,14 @@
       - rsyslog_traditional_file_format is defined
       - rsyslog_traditional_file_format is boolean
     quiet: true
+
+- name: assert | Test rsyslog_templates.params.type
+  ansible.builtin.assert:
+    that:
+      - item is defined
+      - item is string
+      - item in [ "list", "subtree", "string", "plugin" ]
+    quiet: true
+  loop: "{{ rsyslog_templates.params.type }}"
+  when:
+    - rsyslog_templates
