@@ -59,7 +59,7 @@
     that:
       - item is defined
       - item is string
-      - item in [ "imuxsock", "imjournal", "imklog", "immark", "imfile" ]
+      - item in [ "imuxsock", "imjournal", "imklog", "immark", "imfile", "omfwd" ]
     quiet: true
   loop: "{{ rsyslog_mods }}"
 
@@ -117,3 +117,14 @@
       - rsyslog_traditional_file_format is defined
       - rsyslog_traditional_file_format is boolean
     quiet: true
+
+- name: assert | Test rsyslog_templates.params.type
+  ansible.builtin.assert:
+    that:
+      - item.params.type is defined
+      - item.params.type is string
+      - item.params.type in [ "list", "subtree", "string", "plugin" ]
+    quiet: true
+  loop: "{{ rsyslog_templates }}"
+  when:
+    - rsyslog_templates
