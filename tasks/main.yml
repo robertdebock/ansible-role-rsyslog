@@ -58,7 +58,9 @@
     owner: root
     group: root
     mode: 0440
-  with_dict: "{{ rsyslog_rsyslog_d_files }}"
+  loop: "{{ rsyslog_rsyslog_d_files | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
   when:
     - item.value.state | default('present') == 'present'
   notify:
