@@ -5,4 +5,4 @@
   gather_facts: true
 
   roles:
-    - role: ansible-role-rsyslog
+    - role: robertdebock.rsyslog
