@@ -17,7 +17,9 @@
 #$ActionResumeRetryCount -1    # infinite retries if host is down
 # remote host is: name/ip:port, e.g. 192.168.0.1:514, port optional
 #*.* @@remote-host:514
-{{ rsyslog_remote_selector }} {{ '@@' if rsyslog_remote_tcp else '@' }}{{ rsyslog_remote }}:{{ rsyslog_remote_port }}
+{% for remoteserver in rsyslog_remote %}
+{{ rsyslog_remote_selector }} {{ '@@' if rsyslog_remote_tcp else '@' }}{{ remoteserver }}:{{ rsyslog_remote_port }}
+{% endfor %}
 {% endif %}
 # ### end of the forwarding rule ###
 
@@ -34,5 +36,7 @@ action(type="omfwd"
 # # Remote Logging (we use TCP for reliable delivery)
 # # remote_host is: name/ip, e.g. 192.168.0.1, port optional e.g. 10514
 #Target="remote_host" Port="XXX" Protocol="tcp")
-Target="{{ rsyslog_remote }}" Port="{{ rsyslog_remote_port }}" Protocol="{{ 'tcp' if rsyslog_remote_tcp else 'udp' }}" {{ '' if not rsyslog_remote_template else 'template="' + rsyslog_remote_template + '"' }} KeepAlive="on")
+{% for remoteserver in rsyslog_remote %}
+Target="{{ remoteserver }}" Port="{{ rsyslog_remote_port }}" Protocol="{{ 'tcp' if rsyslog_remote_tcp else 'udp' }}" {{ '' if not rsyslog_remote_template else 'template="' + rsyslog_remote_template + '"' }} KeepAlive="on")
+{% endfor %}
 {% endif %}
