@@ -63,8 +63,8 @@ rsyslog_default_rules:
 # https://www.rsyslog.com/doc/v8-stable/configuration/conf_formats.html
 rsyslog_config_file_format: legacy
 
-# The rule conf to name to add to /etc/rsyslog.d/
-# rsyslog_forward_rule_name: <to fill>
+# The rule conf to name to add to /etc/rsyslog.d/ when rsyslog_remote is set.
+rsyslog_forward_rule_name: forwarding
 
 # Configure the rsyslog package to be `present`, or set to `latest` to install
 # the latest available version.
