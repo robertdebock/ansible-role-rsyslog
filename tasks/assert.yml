@@ -47,6 +47,38 @@
       - rsyslog_filecreatemode is not none
     quiet: true
 
+- name: assert | Test rsyslog_config_owner
+  ansible.builtin.assert:
+    that:
+      - rsyslog_config_owner is defined
+      - rsyslog_config_owner is string
+      - rsyslog_config_owner is not none
+    quiet: true
+
+- name: assert | Test rsyslog_config_group
+  ansible.builtin.assert:
+    that:
+      - rsyslog_config_group is defined
+      - rsyslog_config_group is string
+      - rsyslog_config_group is not none
+    quiet: true
+
+- name: assert | Test rsyslog_config_mode
+  ansible.builtin.assert:
+    that:
+      - rsyslog_config_mode is defined
+      - rsyslog_config_mode is string
+      - rsyslog_config_mode is not none
+    quiet: true
+
+- name: assert | Test rsyslog_config_dir_mode
+  ansible.builtin.assert:
+    that:
+      - rsyslog_config_dir_mode is defined
+      - rsyslog_config_dir_mode is string
+      - rsyslog_config_dir_mode is not none
+    quiet: true
+
 - name: assert | Test rsyslog_mods
   ansible.builtin.assert:
     that:

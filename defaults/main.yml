@@ -26,6 +26,16 @@ rsyslog_dircreatemode: "0700"
 # Set the mode for new files; only available in legacy template.
 rsyslog_filecreatemode: "0644"
 
+# Security: owner and group for rsyslog config files and directory (CIS recommends root).
+rsyslog_config_owner: root
+rsyslog_config_group: root
+
+# Security: mode for rsyslog config files (CIS recommends 0600).
+rsyslog_config_mode: "0600"
+
+# Security: mode for rsyslog config directory /etc/rsyslog.d/.
+rsyslog_config_dir_mode: "0755"
+
 # Set the mods enabled. An empty list is valid for receiver-only setups where no
 # input modules (imuxsock, imjournal, imklog, immark, imfile) are needed.
 rsyslog_mods:
