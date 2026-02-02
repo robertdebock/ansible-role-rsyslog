@@ -6,3 +6,5 @@
 
   roles:
     - role: robertdebock.rsyslog
+      rsyslog_mods:
+        - imuxsock

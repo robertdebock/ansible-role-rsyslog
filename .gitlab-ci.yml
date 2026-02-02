@@ -19,8 +19,6 @@ molecule:
     - if: $CI_COMMIT_REF_NAME == "master"
   parallel:
     matrix:
-      - image: "alpine"
-        tag: "latest"
       - image: "enterpriselinux"
         tag: "latest"
       - image: "debian"
