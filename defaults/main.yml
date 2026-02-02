@@ -20,6 +20,10 @@ rsyslog_remote_tcp: true
 # If rsylog_remote is set, destination port to use.
 rsyslog_remote_port: 514
 
+# If rsyslog_remote is set, optional template name for the forward action.
+# Leave empty or unset to use the default format.
+rsyslog_remote_template: ""
+
 # Set the mode for new directories; only available in legacy template.
 rsyslog_dircreatemode: "0700"
 

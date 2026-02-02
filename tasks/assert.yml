@@ -31,6 +31,13 @@
       - rsyslog_remote_port < 65536
     quiet: true
 
+- name: assert | Test rsyslog_remote_template
+  ansible.builtin.assert:
+    that:
+      - rsyslog_remote_template is defined
+      - rsyslog_remote_template is string
+    quiet: true
+
 - name: assert | Test rsyslog_dircreatemode
   ansible.builtin.assert:
     that:
