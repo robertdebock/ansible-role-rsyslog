@@ -71,7 +71,23 @@
     - Restart rsyslog
 
 - name: Start and enable rsyslog
-  ansible.builtin.service:
-    name: "{{ rsyslog_service }}"
-    state: started
-    enabled: true
+  block:
+    - name: Start and enable rsyslog service
+      ansible.builtin.service:
+        name: "{{ rsyslog_service }}"
+        state: started
+        enabled: true
+  rescue:
+    - name: Get rsyslog journal logs after service start failure
+      ansible.builtin.command:
+        cmd: journalctl -u {{ rsyslog_service }} -n 200 --no-pager
+      register: rsyslog_journal
+      changed_when: false
+      ignore_errors: true
+
+    - name: Fail with journal output
+      ansible.builtin.fail:
+        msg: >-
+          rsyslog service failed to start (e.g. timeout).
+          Journal output:
+          {{ rsyslog_journal.stdout | default('(journalctl unavailable or no output)') }}
