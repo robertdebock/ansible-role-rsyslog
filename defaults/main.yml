@@ -26,7 +26,8 @@ rsyslog_dircreatemode: "0700"
 # Set the mode for new files; only available in legacy template.
 rsyslog_filecreatemode: "0644"
 
-# Set the mods enabled
+# Set the mods enabled. An empty list is valid for receiver-only setups where no
+# input modules (imuxsock, imjournal, imklog, immark, imfile) are needed.
 rsyslog_mods:
   - imuxsock
   - imjournal

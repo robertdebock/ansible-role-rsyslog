@@ -62,6 +62,8 @@
       - item in [ "imuxsock", "imjournal", "imklog", "immark", "imfile" ]
     quiet: true
   loop: "{{ rsyslog_mods }}"
+  when:
+    - rsyslog_mods | length > 0
 
 - name: assert | Test rsyslog_deploy_default_config
   ansible.builtin.assert:
