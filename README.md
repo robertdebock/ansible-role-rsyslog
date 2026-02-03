@@ -91,6 +91,13 @@ rsyslog_remote_port: 514
 # Leave empty or unset to use the default format.
 rsyslog_remote_template: ""
 
+# Additional parameters to pass to the omfwd action in advanced
+# configuration mode. This value is appended as-is to the action()
+# definition, so it should contain valid omfwd options, for example:
+#   StreamDriver="gtls" StreamDriverMode="1" StreamDriverAuthMode="x509/certvalid"
+# Leave empty to not add any extra parameters.
+rsyslog_remote_extra_params: ""
+
 # Set the mode for new directories; only available in legacy template.
 rsyslog_dircreatemode: "0700"
 

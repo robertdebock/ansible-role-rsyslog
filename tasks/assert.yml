@@ -38,6 +38,13 @@
       - rsyslog_remote_template is string
     quiet: true
 
+- name: assert | Test rsyslog_remote_extra_params
+  ansible.builtin.assert:
+    that:
+      - rsyslog_remote_extra_params is defined
+      - rsyslog_remote_extra_params is string
+    quiet: true
+
 - name: assert | Test rsyslog_dircreatemode
   ansible.builtin.assert:
     that:
