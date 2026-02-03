@@ -1,7 +1,4 @@
 ---
-# In Docker/CI, rsyslog.service (Type=notify) often does not send sd_notify(READY=1)
-# in time, so systemd times out after 90s. Override to Type=simple so systemd considers
-# the service started when the process is up and does not wait for READY.
 - name: Prepare
   hosts: all
   become: true
@@ -10,6 +7,9 @@
   roles:
     - role: robertdebock.bootstrap
 
+  # In CI, rsyslog does not send sd_notify(READY=1) in time.
+  # Override to Type=simple so systemd considers the service started
+  # when the process is up and does not wait for READY.
   tasks:
     - name: Create systemd drop-in directory for rsyslog.service
       ansible.builtin.file:

@@ -34,6 +34,28 @@ The machine needs to be prepared. In CI this is done using [`molecule/default/pr
 
   roles:
     - role: robertdebock.bootstrap
+
+  # In CI, rsyslog does not send sd_notify(READY=1) in time.
+  # Override to Type=simple so systemd considers the service started
+  # when the process is up and does not wait for READY.
+  tasks:
+    - name: Create systemd drop-in directory for rsyslog.service
+      ansible.builtin.file:
+        path: /etc/systemd/system/rsyslog.service.d
+        state: directory
+        mode: "0755"
+
+    - name: Set rsyslog.service Type=simple so systemd does not wait for READY
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/rsyslog.service.d/type-simple.conf
+        content: |
+          [Service]
+          Type=simple
+        mode: "0644"
+
+    - name: Reload systemd after rsyslog drop-in
+      ansible.builtin.systemd:
+        daemon_reload: true
 ```
 
 Also see a [full explanation and example](https://robertdebock.nl/how-to-use-these-roles.html) on how to use these roles.
