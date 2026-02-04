@@ -52,7 +52,7 @@
     mode: "{{ rsyslog_config_mode }}"
   when:
     - not rsyslog_deploy_default_config
-    - rsyslog_remote is defined
+    - rsyslog_forward_rule_name is defined
   notify:
     - Restart rsyslog
 

@@ -129,12 +129,12 @@
 - name: assert | Test rsyslog_forward_rule_name
   ansible.builtin.assert:
     that:
-      - rsyslog_forward_rule_name is defined
       - rsyslog_forward_rule_name is string
       - rsyslog_forward_rule_name is not none
     quiet: true
   when:
     - not rsyslog_deploy_default_config
+    - rsyslog_forward_rule_name is defined
 
 - name: assert | Test rsyslog_config_file_format
   ansible.builtin.assert:
