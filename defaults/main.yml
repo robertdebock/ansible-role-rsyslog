@@ -2,15 +2,26 @@
 # defaults file for rsyslog
 
 # To configure a server to receive logs, set rsyslog_receiver to yes.
-rsyslog_receiver: no
+rsyslog_receiver: false
 
 # To forward logs to a remote server, add items to the rsyslog_remotes list.
 # Each item should be a map like the following:
-# - selector: *.*
-#   hostname: logging.server.net
-#   port: 514 (optional, default 514)
-#   tcp: yes (optional, default yes)
-rsyslog_remotes: []
+rsyslog_remotes:
+  - selector: *.*
+    hostname: logging.server.net
+    port: 514 (optional, default 514)
+    tcp: yes (optional, default yes)
+
+# If rsyslog_remote is set, optional template name for the forward action.
+# Leave empty or unset to use the default format.
+rsyslog_remote_template: ""
+
+# Additional parameters to pass to the omfwd action in advanced
+# configuration mode. This value is appended as-is to the action()
+# definition, so it should contain valid omfwd options, for example:
+#   StreamDriver="gtls" StreamDriverMode="1" StreamDriverAuthMode="x509/certvalid"
+# Leave empty to not add any extra parameters.
+rsyslog_remote_extra_params: ""
 
 # Set the mode for new directories; only available in legacy template.
 rsyslog_dircreatemode: "0700"
@@ -18,13 +29,24 @@ rsyslog_dircreatemode: "0700"
 # Set the mode for new files; only available in legacy template.
 rsyslog_filecreatemode: "0644"
 
-# Set the mods enabled
+# Security: owner and group for rsyslog config files and directory (CIS recommends root).
+rsyslog_config_owner: root
+rsyslog_config_group: root
+
+# Security: mode for rsyslog config files (CIS recommends 0600).
+rsyslog_config_mode: "0600"
+
+# Security: mode for rsyslog config directory /etc/rsyslog.d/.
+rsyslog_config_dir_mode: "0755"
+
+# Set the mods enabled. An empty list is valid for receiver-only setups where no
+# input modules (imuxsock, imjournal, imklog, immark, imfile) are needed.
 rsyslog_mods:
   - imuxsock
   - imjournal
 
 # Configure rsyslog minimally (may be in conflict with custom configuration files)
-rsyslog_deploy_default_config: yes
+rsyslog_deploy_default_config: true
 
 # Default rsyslogd rules
 rsyslog_default_rules:
@@ -44,8 +66,8 @@ rsyslog_default_rules:
 # https://www.rsyslog.com/doc/v8-stable/configuration/conf_formats.html
 rsyslog_config_file_format: legacy
 
-# The rule conf to name to add to /etc/rsyslog.d/
-# rsyslog_forward_rule_name: <to fill>
+# The rule conf to name to add to /etc/rsyslog.d/ when rsyslog_remote is set.
+rsyslog_forward_rule_name: forwarding
 
 # Configure the rsyslog package to be `present`, or set to `latest` to install
 # the latest available version.
@@ -54,7 +76,7 @@ rsyslog_package_state: present
 # if set to false (legacy default to remain compatible to sysklogd), the domain
 # part from a name that is within the same domain as the receiving system is
 # stripped. If set to on, full names are always used.
-rsyslog_preservefqdn: no
+rsyslog_preservefqdn: false
 
 # Configure additional config files in /etc/rsyslog.d
 # Example:
@@ -69,10 +91,10 @@ rsyslog_rsyslog_d_files: []
 
 # Avoid sd_journal_get_cursor() failed: Cannot assign requested address messages
 # due to logrotate
-rsyslog_workaroundjournalbug: no
+rsyslog_workaroundjournalbug: false
 
 # Turns off message reception via local log socket
-rsyslog_imuxsock_syssock: no
+rsyslog_imuxsock_syssock: false
 
 # Install additional rsyslog packages
 # Example for installing rsyslog-elastisearch:
@@ -85,7 +107,7 @@ rsyslog_features: []
 rsyslog_dest_conf_file: "/etc/rsyslog.conf"
 
 # Enable / Disable option OmitLocalLogging
-rsyslog_omit_local_logging: yes
+rsyslog_omit_local_logging: true
 
 # Allow using the traditional file format.
-rsyslog_traditional_file_format: yes
+rsyslog_traditional_file_format: true
