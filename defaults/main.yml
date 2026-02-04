@@ -4,21 +4,25 @@
 # To configure a server to receive logs, set rsyslog_receiver to yes.
 rsyslog_receiver: false
 
-# To forward logs to another server, set rsyslog_remote to the hostname or
-# the ipaddress of the receiving rsyslog server.
-# Not setting this variable will not forward logs.
-# rsyslog_remote: server1.example.com
+# To forward logs to a remote server, add items to the rsyslog_remotes list.
+# Each item should be a map like the following:
+rsyslog_remotes:
+  - selector: '*.*'
+    hostname: logging.server.net
+    port: 514  # (optional, default 514)
+    tcp: true  # (optional, default true)
+    # extra_params: 'KeepAlive="on"'
 
-# If rsylog_remote is set, sets the "selector" pattern for determining which
-# messages to send to the remote server.  Default "*.*" sends everything.
-# See `man rsyslog.conf`.
-rsyslog_remote_selector: "*.*"
+# If rsyslog_remotes is set, optional template name for the forward action.
+# Leave empty or unset to use the default format.
+rsyslog_remote_template: ""
 
-# If rsylog_remote is set, use TCP if yes. UDP if no.
-rsyslog_remote_tcp: true
-
-# If rsylog_remote is set, destination port to use.
-rsyslog_remote_port: 514
+# Additional parameters to pass to the omfwd action in advanced
+# configuration mode. This value is appended as-is to the action()
+# definition, so it should contain valid omfwd options, for example:
+#   StreamDriver="gtls" StreamDriverMode="1" StreamDriverAuthMode="x509/certvalid"
+# Leave empty to not add any extra parameters.
+rsyslog_remote_extra_params: ""
 
 # Set the mode for new directories; only available in legacy template.
 rsyslog_dircreatemode: "0700"
@@ -26,7 +30,18 @@ rsyslog_dircreatemode: "0700"
 # Set the mode for new files; only available in legacy template.
 rsyslog_filecreatemode: "0644"
 
-# Set the mods enabled
+# Security: owner and group for rsyslog config files and directory (CIS recommends root).
+rsyslog_config_owner: root
+rsyslog_config_group: root
+
+# Security: mode for rsyslog config files (CIS recommends 0600).
+rsyslog_config_mode: "0600"
+
+# Security: mode for rsyslog config directory /etc/rsyslog.d/.
+rsyslog_config_dir_mode: "0755"
+
+# Set the mods enabled. An empty list is valid for receiver-only setups where no
+# input modules (imuxsock, imjournal, imklog, immark, imfile) are needed.
 rsyslog_mods:
   - imuxsock
   - imjournal
@@ -52,8 +67,8 @@ rsyslog_default_rules:
 # https://www.rsyslog.com/doc/v8-stable/configuration/conf_formats.html
 rsyslog_config_file_format: legacy
 
-# The rule conf to name to add to /etc/rsyslog.d/
-# rsyslog_forward_rule_name: <to fill>
+# The rule conf to name to add to /etc/rsyslog.d/ when rsyslog_remote is set.
+rsyslog_forward_rule_name: forwarding
 
 # Configure the rsyslog package to be `present`, or set to `latest` to install
 # the latest available version.
@@ -67,7 +82,9 @@ rsyslog_preservefqdn: false
 # Configure additional config files in /etc/rsyslog.d
 # Example:
 # rsyslog_rsyslog_d_files:
-#   000-splunk:
+#   - name: 000-splunk
+#     state: present
+#     validate: true
 #     content: |
 #       auth,authpriv.* action(type="omfwd"
 #                              target="splunk"

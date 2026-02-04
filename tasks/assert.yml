@@ -14,21 +14,43 @@
       - rsyslog_preservefqdn is boolean
     quiet: true
 
-- name: assert | Test rsyslog_remote_selector
+- name: assert | Test rsyslog_remotes
   ansible.builtin.assert:
     that:
-      - rsyslog_remote_selector is defined
-      - rsyslog_remote_selector is string
-      - rsyslog_remote_selector is not none
+      - rsyslog_remotes is defined
+      - rsyslog_remotes is iterable
     quiet: true
 
-- name: assert | Test rsyslog_remote_port
+- name: assert | Test item in rsyslog_remotes
   ansible.builtin.assert:
     that:
-      - rsyslog_remote_port is defined
-      - rsyslog_remote_port is number
-      - rsyslog_remote_port > 0
-      - rsyslog_remote_port < 65536
+      - item is mapping
+      - "'selector' in item"
+      - item.selector is string
+      - item.selector is not none
+      - "'hostname' in item"
+      - item.hostname is string
+      - item.hostname is not none
+      - "'port' not in item or (item.port is number and item.port > 0 and item.port < 65536)"
+      - "'tcp' not in item or item.tcp is boolean"
+      - "'extra_params' not in item or item.extra_params is string"
+    quiet: true
+  loop: "{{ rsyslog_remotes }}"
+  when:
+    - rsyslog_remotes | length > 0
+
+- name: assert | Test rsyslog_remote_template
+  ansible.builtin.assert:
+    that:
+      - rsyslog_remote_template is defined
+      - rsyslog_remote_template is string
+    quiet: true
+
+- name: assert | Test rsyslog_remote_extra_params
+  ansible.builtin.assert:
+    that:
+      - rsyslog_remote_extra_params is defined
+      - rsyslog_remote_extra_params is string
     quiet: true
 
 - name: assert | Test rsyslog_dircreatemode
@@ -47,6 +69,38 @@
       - rsyslog_filecreatemode is not none
     quiet: true
 
+- name: assert | Test rsyslog_config_owner
+  ansible.builtin.assert:
+    that:
+      - rsyslog_config_owner is defined
+      - rsyslog_config_owner is string
+      - rsyslog_config_owner is not none
+    quiet: true
+
+- name: assert | Test rsyslog_config_group
+  ansible.builtin.assert:
+    that:
+      - rsyslog_config_group is defined
+      - rsyslog_config_group is string
+      - rsyslog_config_group is not none
+    quiet: true
+
+- name: assert | Test rsyslog_config_mode
+  ansible.builtin.assert:
+    that:
+      - rsyslog_config_mode is defined
+      - rsyslog_config_mode is string
+      - rsyslog_config_mode is not none
+    quiet: true
+
+- name: assert | Test rsyslog_config_dir_mode
+  ansible.builtin.assert:
+    that:
+      - rsyslog_config_dir_mode is defined
+      - rsyslog_config_dir_mode is string
+      - rsyslog_config_dir_mode is not none
+    quiet: true
+
 - name: assert | Test rsyslog_mods
   ansible.builtin.assert:
     that:
@@ -59,9 +113,11 @@
     that:
       - item is defined
       - item is string
-      - item in [ "imuxsock", "imjournal", "imklog", "immark", "imfile" ]
+      - item in [ "imuxsock", "imjournal", "imklog", "immark", "imfile", "omrelp" ]
     quiet: true
   loop: "{{ rsyslog_mods }}"
+  when:
+    - rsyslog_mods | length > 0
 
 - name: assert | Test rsyslog_deploy_default_config
   ansible.builtin.assert:

@@ -27,7 +27,9 @@
   ansible.builtin.template:
     src: "{{ rsyslog_config_file_format }}_rsyslog.conf.j2"
     dest: "{{ rsyslog_dest_conf_file }}"
-    mode: "0644"
+    owner: "{{ rsyslog_config_owner }}"
+    group: "{{ rsyslog_config_group }}"
+    mode: "{{ rsyslog_config_mode }}"
   when:
     - rsyslog_deploy_default_config
   notify:
@@ -37,13 +39,17 @@
   ansible.builtin.file:
     name: /etc/rsyslog.d/
     state: directory
-    mode: "0755"
+    owner: "{{ rsyslog_config_owner }}"
+    group: "{{ rsyslog_config_group }}"
+    mode: "{{ rsyslog_config_dir_mode }}"
 
 - name: Configuring rsyslog forward rule
   ansible.builtin.template:
     src: "forward_rule.conf.j2"
     dest: /etc/rsyslog.d/{{ rsyslog_forward_rule_name }}.conf
-    mode: "0644"
+    owner: "{{ rsyslog_config_owner }}"
+    group: "{{ rsyslog_config_group }}"
+    mode: "{{ rsyslog_config_mode }}"
   when:
     - not rsyslog_deploy_default_config
     - rsyslog_forward_rule_name is defined
@@ -52,22 +58,36 @@
 
 - name: Configuring additional config files
   ansible.builtin.copy:
-    content: "{{ item.value.content | default('') }}"
-    dest: "/etc/rsyslog.d/{{ item.key }}.conf"
-    validate: "{{ 'rsyslogd -N1 -f %s' if item.value.validate | default(false) else 'true %s' }}"
-    owner: root
-    group: root
-    mode: 0440
-  loop: "{{ rsyslog_rsyslog_d_files | dict2items }}"
-  loop_control:
-    label: "{{ item.key }}"
+    content: "{{ item.content | default('') }}"
+    dest: "/etc/rsyslog.d/{{ item.name }}.conf"
+    validate: "{{ 'rsyslogd -N1 -f %s' if item.validate | default(false) else 'true %s' }}"
+    owner: "{{ rsyslog_config_owner }}"
+    group: "{{ rsyslog_config_group }}"
+    mode: "{{ rsyslog_config_mode }}"
+  loop: "{{ rsyslog_rsyslog_d_files }}"
   when:
-    - item.value.state | default('present') == 'present'
+    - item.state | default('present') == 'present'
   notify:
     - Restart rsyslog
 
 - name: Start and enable rsyslog
-  ansible.builtin.service:
-    name: "{{ rsyslog_service }}"
-    state: started
-    enabled: true
+  block:
+    - name: Start and enable rsyslog service
+      ansible.builtin.service:
+        name: "{{ rsyslog_service }}"
+        state: started
+        enabled: true
+  rescue:
+    - name: Get rsyslog journal logs after service start failure
+      ansible.builtin.command:
+        cmd: journalctl -u {{ rsyslog_service }} -n 200 --no-pager
+      register: rsyslog_journal
+      changed_when: false
+      ignore_errors: true
+
+    - name: Fail with journal output
+      ansible.builtin.fail:
+        msg: >-
+          rsyslog service failed to start (e.g. timeout).
+          Journal output:
+          {{ rsyslog_journal.stdout | default('(journalctl unavailable or no output)') }}

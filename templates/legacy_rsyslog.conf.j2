@@ -15,6 +15,7 @@
 {{ '#' if not 'imklog'    in rsyslog_mods else '' }}$ModLoad imklog    # provides kernel logging support
 {{ '#' if not 'immark'    in rsyslog_mods else '' }}$ModLoad immark    # provides --MARK-- message capability
 {{ '#' if not 'imfile'    in rsyslog_mods else '' }}$ModLoad imfile    # provides access to specific log file
+{{ '#' if not 'omrelp'    in rsyslog_mods else '' }}$ModLoad omrelp    # supports sending syslog messages over the reliable RELP protocol
 
 # provides UDP syslog reception
 {{ '' if rsyslog_receiver else '#' }}$ModLoad imudp
@@ -96,25 +97,29 @@ $PreserveFQDN on
 {% endfor %}
 {% endif %}
 
-{% if rsyslog_remote is defined %}
-#########################
-#### FORWARDING RULE ####
-#########################
+##########################
+#### FORWARDING RULES ####
+##########################
 
-# The statement between the begin ... end define a SINGLE forwarding
+# The statement between the begin and end comments define a SINGLE forwarding
 # rule. They belong together, do NOT split them. If you create multiple
 # forwarding rules, duplicate the whole block!
-# Remote Logging (we use TCP for reliable delivery)
-#
-# An on-disk queue is created for this action. If the remote host is
+
+# An on-disk queue is created for these actions. If the remote host is
 # down, messages are spooled to disk and sent when it is up again.
+
+# Example
+# *.* @@logging.server.net:514
+
+{% for remote in rsyslog_remotes %}
+### begin forwarding rule ###
+# Uncomment the lines below if you wish to configure further.
 #$ActionQueueFileName fwdRule1 # unique name prefix for spool files
 #$ActionQueueMaxDiskSpace 1g   # 1gb space limit (use as much as possible)
 #$ActionQueueSaveOnShutdown on # save messages to disk on shutdown
 #$ActionQueueType LinkedList   # run asynchronously
 #$ActionResumeRetryCount -1    # infinite retries if host is down
-# remote host is: name/ip:port, e.g. 192.168.0.1:514, port optional
-#*.* @@remote-host:514
-{{ rsyslog_remote_selector }} {{ '@@' if rsyslog_remote_tcp else '@' }}{{ rsyslog_remote }}:{{ rsyslog_remote_port }}
-# ### end of the forwarding rule ###
-{% endif %}
+{{ remote.selector }} {{ '@@' if remote.tcp else '@' }}{{ remote.hostname }}{{ ':' if remote.port }}{{ remote.port }}
+### end forwarding rule ###
+
+{% endfor %}

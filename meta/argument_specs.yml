@@ -1,0 +1,237 @@
+---
+argument_specs:
+  main:
+    short_description: Install and configure rsyslog.
+    description:
+      - This role installs and configures rsyslog.
+      - It can configure a host as a log receiver and/or forwarder and manage default rules and additional configuration files.
+    options:
+      rsyslog_receiver:
+        type: bool
+        default: false
+        description:
+          - When true, configure this host as a log receiver.
+
+      rsyslog_remotes:
+        type: list
+        elements: dict
+        description:
+          - List of remote destinations to which logs are forwarded.
+          - Each item describes one omfwd action.
+        options:
+          selector:
+            type: str
+            required: true
+            description:
+              - Rsyslog selector expression for messages to forward, for example C(*.*).
+          hostname:
+            type: str
+            required: true
+            description:
+              - Target hostname or IP address for the remote log receiver.
+          port:
+            type: int
+            required: false
+            description:
+              - Destination port for the remote receiver.
+              - Must be between 1 and 65535.
+          tcp:
+            type: bool
+            required: false
+            description:
+              - When true, use TCP as transport. When false, use UDP.
+          extra_params:
+            type: str
+            required: false
+            description:
+              - Extra parameters appended to the omfwd action definition.
+
+      rsyslog_remote_template:
+        type: str
+        default: ""
+        description:
+          - Optional template name to use for the remote forward action when C(rsyslog_remotes) is set.
+          - Leave empty to use the default rsyslog format.
+
+      rsyslog_remote_extra_params:
+        type: str
+        default: ""
+        description:
+          - Extra parameters appended to the omfwd action definition in advanced configuration mode.
+          - Should contain valid omfwd options.
+
+      rsyslog_dircreatemode:
+        type: str
+        default: "0700"
+        description:
+          - File mode to use for newly created log directories in legacy configuration.
+
+      rsyslog_filecreatemode:
+        type: str
+        default: "0644"
+        description:
+          - File mode to use for newly created log files in legacy configuration.
+
+      rsyslog_config_owner:
+        type: str
+        default: "root"
+        description:
+          - Owner of rsyslog configuration files and directories.
+
+      rsyslog_config_group:
+        type: str
+        default: "root"
+        description:
+          - Group of rsyslog configuration files and directories.
+
+      rsyslog_config_mode:
+        type: str
+        default: "0600"
+        description:
+          - File mode to use for rsyslog configuration files.
+
+      rsyslog_config_dir_mode:
+        type: str
+        default: "0755"
+        description:
+          - File mode to use for the rsyslog configuration directory C(/etc/rsyslog.d/).
+
+      rsyslog_mods:
+        type: list
+        elements: str
+        default:
+          - imuxsock
+          - imjournal
+        choices:
+          - imuxsock
+          - imjournal
+          - imklog
+          - immark
+          - imfile
+          - omrelp
+        description:
+          - List of rsyslog modules to load.
+          - An empty list is valid for receiver-only setups.
+
+      rsyslog_deploy_default_config:
+        type: bool
+        default: true
+        description:
+          - When true, deploy the default rsyslog configuration template.
+          - When false, only manage the forward rule configuration file.
+
+      rsyslog_default_rules:
+        type: list
+        elements: dict
+        description:
+          - List of default rsyslog rules to configure in the main configuration file.
+        options:
+          rule:
+            type: str
+            required: true
+            description:
+              - Selector expression for the rule, for example C(*.info;mail.none;authpriv.none;cron.none).
+          logpath:
+            type: str
+            required: true
+            description:
+              - Destination log path or action for the rule.
+
+      rsyslog_config_file_format:
+        type: str
+        default: "legacy"
+        choices:
+          - legacy
+          - advanced
+        description:
+          - Configuration file format to use for the main rsyslog configuration.
+          - C(legacy) uses the traditional v5-style syntax, C(advanced) uses the modern v6+ syntax.
+
+      rsyslog_forward_rule_name:
+        type: str
+        default: "forwarding"
+        description:
+          - Basename of the forward rule configuration file created in C(/etc/rsyslog.d/).
+
+      rsyslog_package_state:
+        type: str
+        default: "present"
+        choices:
+          - present
+          - latest
+        description:
+          - Desired package state for the rsyslog packages.
+
+      rsyslog_preservefqdn:
+        type: bool
+        default: false
+        description:
+          - When false, strip the domain part for names within the same domain as the receiver.
+          - When true, always use fully qualified hostnames.
+
+      rsyslog_rsyslog_d_files:
+        type: list
+        elements: dict
+        description:
+          - Additional configuration snippets to deploy in C(/etc/rsyslog.d/).
+        options:
+          name:
+            type: str
+            required: true
+            description:
+              - Basename (without C(.conf)) of the configuration file to create in C(/etc/rsyslog.d/).
+          state:
+            type: str
+            required: false
+            choices:
+              - present
+              - absent
+            description:
+              - Whether the configuration file should be present or absent.
+          validate:
+            type: bool
+            required: false
+            description:
+              - When true, validate the configuration with C(rsyslogd -N1) before applying.
+          content:
+            type: str
+            required: false
+            description:
+              - Content of the configuration file.
+
+      rsyslog_workaroundjournalbug:
+        type: bool
+        default: false
+        description:
+          - When true, apply a workaround for C(sd_journal_get_cursor() failed: Cannot assign requested address) messages due to logrotate.
+
+      rsyslog_imuxsock_syssock:
+        type: bool
+        default: false
+        description:
+          - When true, turns off message reception via the local log socket.
+
+      rsyslog_features:
+        type: list
+        elements: str
+        default: []
+        description:
+          - Additional rsyslog feature packages to install, for example C(gnutls) or C(elastisearch).
+
+      rsyslog_dest_conf_file:
+        type: str
+        default: "/etc/rsyslog.conf"
+        description:
+          - Destination path for the main rsyslog configuration file.
+
+      rsyslog_omit_local_logging:
+        type: bool
+        default: true
+        description:
+          - Controls the C(OmitLocalLogging) option in rsyslog.
+
+      rsyslog_traditional_file_format:
+        type: bool
+        default: true
+        description:
+          - When true, allow using the traditional rsyslog file format.
