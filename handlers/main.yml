@@ -1,9 +1,23 @@
 ---
 # handlers file for rsyslog
 
-- name: Restart rsyslog
-  ansible.builtin.service:
-    name: "{{ rsyslog_service }}"
-    state: restarted
-  when:
-    - not ansible_check_mode
+- name: Restart rsyslog block
+  block:
+    - name: Restart rsyslog
+      ansible.builtin.service:
+        name: "{{ rsyslog_service }}"
+        state: restarted
+  rescue:
+    - name: Get rsyslog journal logs after service restart failure
+      ansible.builtin.command:
+        cmd: journalctl -u {{ rsyslog_service }} -n 200 --no-pager
+      register: rsyslog_journal
+      changed_when: false
+      ignore_errors: true
+
+    - name: Fail with journal output
+      ansible.builtin.fail:
+        msg: >-
+          rsyslog service failed to restart (e.g. timeout).
+          Journal output:
+          {{ rsyslog_journal.stdout | default('(journalctl unavailable or no output)') }}

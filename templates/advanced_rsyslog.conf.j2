@@ -46,7 +46,9 @@
 # Use traditional timestamp format.
 # To enable high precision timestamps, comment out the following line.
 #
+{% if rsyslog_traditional_file_format %}
 module(load="builtin:omfile" Template="RSYSLOG_TraditionalFileFormat")
+{% endif %}
 
 #
 # Set the default permissions for all log files.
@@ -90,22 +92,39 @@ include(file="/etc/rsyslog.d/*.conf" mode="optional")
 {% endfor %}
 {% endif %}
 
-{% if rsyslog_remote is defined %}
-#########################
-#### FORWARDING RULE ####
-#########################
+##########################
+#### FORWARDING RULES ####
+##########################
 
-action(type="omfwd"
-# # An on-disk queue is created for this action. If the remote host is
-# # down, messages are spooled to disk and sent when it is up again.
+# The statement between the begin and end comments define a SINGLE forwarding
+# rule. They belong together, do NOT split them. If you create multiple
+# forwarding rules, duplicate the whole block!
+
+# An on-disk queue is created for these actions. If the remote host is
+# down, messages are spooled to disk and sent when it is up again.
+
+# Example
+# *.* action(type="omfwd" Target="logging.server.net" Port="514" Protocol="tcp")
+
+{% for remote in rsyslog_remotes %}
+### begin forwarding rule ###
+# Uncomment the lines below if you wish to configure further.
 #queue.filename="fwdRule1"       # unique name prefix for spool files
 #queue.maxdiskspace="1g"         # 1gb space limit (use as much as possible)
 #queue.saveonshutdown="on"       # save messages to disk on shutdown
 #queue.type="LinkedList"         # run asynchronously
 #action.resumeRetryCount="-1"    # infinite retries if host is down
-# # Remote Logging (we use TCP for reliable delivery)
-# # remote_host is: name/ip, e.g. 192.168.0.1, port optional e.g. 10514
-#Target="remote_host" Port="XXX" Protocol="tcp")
-Target="{{ rsyslog_remote }}" Port="{{ rsyslog_remote_port }}" Protocol="{{ 'tcp' if rsyslog_remote_tcp else 'udp' }}" {{ '' if not rsyslog_remote_template else 'template="' + rsyslog_remote_template + '"' }})
-# ### end of the forwarding rule ###
+{{ remote.selector }} action(type="omfwd" Target="{{ remote.hostname }}"
+{% if remote.port %}
+Port="{{ remote.port }}"
 {% endif %}
+Protocol="{{ 'tcp' if remote.tcp else 'udp' }}"
+{% set _template = remote.template | default(rsyslog_remote_template) %}
+{% if _template %}
+Template="{{ _template }}"
+{% endif %}
+{% set _extra_params = remote.extra_params | default(rsyslog_remote_extra_params) %}
+{{ _extra_params if _extra_params else 'KeepAlive="on"' }})
+### end forwarding rule ###
+
+{% endfor %}
