@@ -1,38 +1,52 @@
 {{ ansible_managed | comment }}
 
-# ### begin forwarding rule ###
-# The statement between the begin ... end define a SINGLE forwarding
+# The statement between the begin and end comments define a SINGLE forwarding
 # rule. They belong together, do NOT split them. If you create multiple
 # forwarding rules, duplicate the whole block!
-# Remote Logging (we use TCP for reliable delivery)
-#
 
-{% if rsyslog_remote is defined  and rsyslog_config_file_format == 'legacy' %}
-# An on-disk queue is created for this action. If the remote host is
+# An on-disk queue is created for these actions. If the remote host is
 # down, messages are spooled to disk and sent when it is up again.
+
+{% if rsyslog_config_file_format == 'legacy' %}
+# Example
+# *.* @@logging.server.net:514
+
+{% for remote in rsyslog_remotes %}
+### begin forwarding rule ###
+# Uncomment the lines below if you wish to configure further.
 #$ActionQueueFileName fwdRule1 # unique name prefix for spool files
 #$ActionQueueMaxDiskSpace 1g   # 1gb space limit (use as much as possible)
 #$ActionQueueSaveOnShutdown on # save messages to disk on shutdown
 #$ActionQueueType LinkedList   # run asynchronously
 #$ActionResumeRetryCount -1    # infinite retries if host is down
-# remote host is: name/ip:port, e.g. 192.168.0.1:514, port optional
-#*.* @@remote-host:514
-{{ rsyslog_remote_selector }} {{ '@@' if rsyslog_remote_tcp else '@' }}{{ rsyslog_remote }}:{{ rsyslog_remote_port }}
-{% endif %}
-# ### end of the forwarding rule ###
+{{ remote.selector }} {{ '@@' if remote.tcp else '@' }}{{ remote.hostname }}{{ ':' if remote.port }}{{ remote.port }}
+### end forwarding rule ###
 
-{% if rsyslog_remote is defined and rsyslog_config_file_format == 'advanced' %}
-# ### sample forwarding rule ###
-action(type="omfwd"
-# # An on-disk queue is created for this action. If the remote host is
-# # down, messages are spooled to disk and sent when it is up again.
+{% endfor %}
+{% endif %}
+
+{% if rsyslog_config_file_format == 'advanced' %}
+# Example
+# *.* action(type="omfwd" Target="logging.server.net" Port="514" Protocol="tcp")
+
+{% for remote in rsyslog_remotes %}
+### begin forwarding rule ###
+# Uncomment the lines below if you wish to configure further.
 #queue.filename="fwdRule1"       # unique name prefix for spool files
 #queue.maxdiskspace="1g"         # 1gb space limit (use as much as possible)
 #queue.saveonshutdown="on"       # save messages to disk on shutdown
 #queue.type="LinkedList"         # run asynchronously
 #action.resumeRetryCount="-1"    # infinite retries if host is down
-# # Remote Logging (we use TCP for reliable delivery)
-# # remote_host is: name/ip, e.g. 192.168.0.1, port optional e.g. 10514
-#Target="remote_host" Port="XXX" Protocol="tcp")
-Target="{{ rsyslog_remote }}" Port="{{ rsyslog_remote_port }}" Protocol="{{ 'tcp' if rsyslog_remote_tcp else 'udp' }}" {{ '' if not rsyslog_remote_template else 'template="' + rsyslog_remote_template + '"' }} {{ rsyslog_remote_extra_params if rsyslog_remote_extra_params else 'KeepAlive="on"' }})
+{{ remote.selector }} action(type="omfwd" Target="{{ remote.hostname }}"
+{% if remote.port %}
+Port="{{ remote.port }}"
+{% endif %}
+Protocol="{{ 'tcp' if remote.tcp else 'udp' }}"
+{% if remote.template %}
+Template="{{ remote.template }}"
+{% endif %}
+KeepAlive="on")
+### end forwarding rule ###
+
+{% endfor %}
 {% endif %}
