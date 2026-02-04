@@ -7,12 +7,13 @@ rsyslog_receiver: false
 # To forward logs to a remote server, add items to the rsyslog_remotes list.
 # Each item should be a map like the following:
 rsyslog_remotes:
-  - selector: *.*
+  - selector: '*.*'
     hostname: logging.server.net
-    port: 514 (optional, default 514)
-    tcp: yes (optional, default yes)
+    port: 514  # (optional, default 514)
+    tcp: true  # (optional, default true)
+    # extra_params: 'KeepAlive="on"'
 
-# If rsyslog_remote is set, optional template name for the forward action.
+# If rsyslog_remotes is set, optional template name for the forward action.
 # Leave empty or unset to use the default format.
 rsyslog_remote_template: ""
 

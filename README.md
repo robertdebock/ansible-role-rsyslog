@@ -71,23 +71,16 @@ The default values for the variables are set in [`defaults/main.yml`](https://gi
 # To configure a server to receive logs, set rsyslog_receiver to yes.
 rsyslog_receiver: false
 
-# To forward logs to another server, set rsyslog_remote to the hostname or
-# the ipaddress of the receiving rsyslog server.
-# Not setting this variable will not forward logs.
-# rsyslog_remote: server1.example.com
+# To forward logs to a remote server, add items to the rsyslog_remotes list.
+# Each item should be a map like the following:
+rsyslog_remotes:
+  - selector: '*.*'
+    hostname: logging.server.net
+    port: 514  # (optional, default 514)
+    tcp: true  # (optional, default true)
+    # extra_params: 'KeepAlive="on"'
 
-# If rsylog_remote is set, sets the "selector" pattern for determining which
-# messages to send to the remote server.  Default "*.*" sends everything.
-# See `man rsyslog.conf`.
-rsyslog_remote_selector: "*.*"
-
-# If rsylog_remote is set, use TCP if yes. UDP if no.
-rsyslog_remote_tcp: true
-
-# If rsylog_remote is set, destination port to use.
-rsyslog_remote_port: 514
-
-# If rsyslog_remote is set, optional template name for the forward action.
+# If rsyslog_remotes is set, optional template name for the forward action.
 # Leave empty or unset to use the default format.
 rsyslog_remote_template: ""
 

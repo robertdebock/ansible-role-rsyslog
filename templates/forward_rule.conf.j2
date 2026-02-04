@@ -42,10 +42,12 @@
 Port="{{ remote.port }}"
 {% endif %}
 Protocol="{{ 'tcp' if remote.tcp else 'udp' }}"
-{% if remote.template %}
-Template="{{ remote.template }}"
+{% set _template = remote.template | default(rsyslog_remote_template) %}
+{% if _template %}
+Template="{{ _template }}"
 {% endif %}
-KeepAlive="on")
+{% set _extra_params = remote.extra_params | default(rsyslog_remote_extra_params) %}
+{{ _extra_params if _extra_params else 'KeepAlive="on"' }})
 ### end forwarding rule ###
 
 {% endfor %}

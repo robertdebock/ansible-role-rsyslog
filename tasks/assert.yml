@@ -14,22 +14,30 @@
       - rsyslog_preservefqdn is boolean
     quiet: true
 
-- name: assert | Test rsyslog_remote_selector
+- name: assert | Test rsyslog_remotes
   ansible.builtin.assert:
     that:
-      - rsyslog_remote_selector is defined
-      - rsyslog_remote_selector is string
-      - rsyslog_remote_selector is not none
+      - rsyslog_remotes is defined
+      - rsyslog_remotes is iterable
     quiet: true
 
-- name: assert | Test rsyslog_remote_port
+- name: assert | Test item in rsyslog_remotes
   ansible.builtin.assert:
     that:
-      - rsyslog_remote_port is defined
-      - rsyslog_remote_port is number
-      - rsyslog_remote_port > 0
-      - rsyslog_remote_port < 65536
+      - item is mapping
+      - "'selector' in item"
+      - item.selector is string
+      - item.selector is not none
+      - "'hostname' in item"
+      - item.hostname is string
+      - item.hostname is not none
+      - "'port' not in item or (item.port is number and item.port > 0 and item.port < 65536)"
+      - "'tcp' not in item or item.tcp is boolean"
+      - "'extra_params' not in item or item.extra_params is string"
     quiet: true
+  loop: "{{ rsyslog_remotes }}"
+  when:
+    - rsyslog_remotes | length > 0
 
 - name: assert | Test rsyslog_remote_template
   ansible.builtin.assert:
