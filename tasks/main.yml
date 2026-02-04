@@ -58,15 +58,15 @@
 
 - name: Configuring additional config files
   ansible.builtin.copy:
-    content: "{{ item.value.content | default('') }}"
-    dest: "/etc/rsyslog.d/{{ item.key }}.conf"
-    validate: "{{ 'rsyslogd -N1 -f %s' if item.value.validate | default(false) else 'true %s' }}"
+    content: "{{ item.content | default('') }}"
+    dest: "/etc/rsyslog.d/{{ item.name }}.conf"
+    validate: "{{ 'rsyslogd -N1 -f %s' if item.validate | default(false) else 'true %s' }}"
     owner: "{{ rsyslog_config_owner }}"
     group: "{{ rsyslog_config_group }}"
     mode: "{{ rsyslog_config_mode }}"
-  with_dict: "{{ rsyslog_rsyslog_d_files }}"
+  loop: "{{ rsyslog_rsyslog_d_files }}"
   when:
-    - item.value.state | default('present') == 'present'
+    - item.state | default('present') == 'present'
   notify:
     - Restart rsyslog
 

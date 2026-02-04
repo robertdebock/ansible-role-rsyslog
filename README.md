@@ -149,7 +149,9 @@ rsyslog_preservefqdn: false
 # Configure additional config files in /etc/rsyslog.d
 # Example:
 # rsyslog_rsyslog_d_files:
-#   000-splunk:
+#   - name: 000-splunk
+#     state: present
+#     validate: true
 #     content: |
 #       auth,authpriv.* action(type="omfwd"
 #                              target="splunk"
