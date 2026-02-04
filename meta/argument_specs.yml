@@ -203,7 +203,7 @@ argument_specs:
         type: bool
         default: false
         description:
-          - When true, apply a workaround for C(sd_journal_get_cursor() failed: Cannot assign requested address) messages due to logrotate.
+          - "When true, apply a workaround for C(sd_journal_get_cursor() failed: Cannot assign requested address) messages due to logrotate."
 
       rsyslog_imuxsock_syssock:
         type: bool
