@@ -16,6 +16,8 @@
         path: /etc/systemd/system/rsyslog.service.d
         state: directory
         mode: "0755"
+      when:
+        - ansible_facts['service_mgr'] == "systemd"
 
     - name: Set rsyslog.service Type=simple so systemd does not wait for READY
       ansible.builtin.copy:
@@ -24,7 +26,11 @@
           [Service]
           Type=simple
         mode: "0644"
+      when:
+        - ansible_facts['service_mgr'] == "systemd"
 
     - name: Reload systemd after rsyslog drop-in
       ansible.builtin.systemd:
         daemon_reload: true
+      when:
+        - ansible_facts['service_mgr'] == "systemd"

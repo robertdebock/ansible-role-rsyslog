@@ -11,3 +11,13 @@ _rsyslog_work_directory:
   Debian: /var/spool/rsyslog
 
 rsyslog_work_directory: "{{ _rsyslog_work_directory[ansible_facts['os_family']] | default(_rsyslog_work_directory['default']) }}"
+
+_rsyslog_default_mods:
+  default:
+    - imuxsock
+    - imjournal
+  Alpine:
+    - imuxsock
+    - imklog
+
+rsyslog_default_mods: "{{ _rsyslog_default_mods[ansible_facts['os_family']] | default(_rsyslog_default_mods['default']) }}"
