@@ -82,7 +82,8 @@
       ansible.builtin.command:
         cmd: journalctl -u {{ rsyslog_service }} -n 200 --no-pager
       register: rsyslog_journal
-      changed_when: false
+      changed_when:
+        - false
       ignore_errors: true
 
     - name: Fail with journal output
