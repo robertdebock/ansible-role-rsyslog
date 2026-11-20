@@ -44,6 +44,8 @@ The machine needs to be prepared. In CI this is done using [`molecule/default/pr
         path: /etc/systemd/system/rsyslog.service.d
         state: directory
         mode: "0755"
+      when:
+        - ansible_facts['service_mgr'] == "systemd"
 
     - name: Set rsyslog.service Type=simple so systemd does not wait for READY
       ansible.builtin.copy:
@@ -52,10 +54,14 @@ The machine needs to be prepared. In CI this is done using [`molecule/default/pr
           [Service]
           Type=simple
         mode: "0644"
+      when:
+        - ansible_facts['service_mgr'] == "systemd"
 
     - name: Reload systemd after rsyslog drop-in
       ansible.builtin.systemd:
         daemon_reload: true
+      when:
+        - ansible_facts['service_mgr'] == "systemd"
 ```
 
 Also see a [full explanation and example](https://robertdebock.nl/how-to-use-these-roles.html) on how to use these roles.
@@ -107,11 +113,9 @@ rsyslog_config_mode: "0600"
 # Security: mode for rsyslog config directory /etc/rsyslog.d/.
 rsyslog_config_dir_mode: "0755"
 
-# Set the mods enabled. An empty list is valid for receiver-only setups where no
+# Set the mods enabled, the default depends on the distribution (Alpine has no systemd journal, so no imjournal). An empty list is valid for receiver-only setups where no
 # input modules (imuxsock, imjournal, imklog, immark, imfile) are needed.
-rsyslog_mods:
-  - imuxsock
-  - imjournal
+rsyslog_mods: "{{ rsyslog_default_mods }}"
 
 # Configure rsyslog minimally (may be in conflict with custom configuration files)
 rsyslog_deploy_default_config: true
@@ -213,11 +217,7 @@ This role has been tested on these [container images](https://hub.docker.com/u/r
 |[Fedora](https://hub.docker.com/r/robertdebock/fedora)|all|
 |[Ubuntu](https://hub.docker.com/r/robertdebock/ubuntu)|all|
 
-The minimum version of Ansible required is 2.12, tests have been done on:
-
-- The previous version.
-- The current version.
-- The development version.
+The minimum version of Ansible (ansible-core) required is 2.20, tests are done with the latest release of ansible-core.
 
 If you find issues, please register them on [GitHub](https://github.com/robertdebock/ansible-role-rsyslog/issues).
 
