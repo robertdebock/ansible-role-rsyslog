@@ -21,3 +21,7 @@ _rsyslog_default_mods:
     - imklog
 
 rsyslog_default_mods: "{{ _rsyslog_default_mods[ansible_facts['os_family']] | default(_rsyslog_default_mods['default']) }}"
+
+# The command that validates an additional config file: rsyslogd itself when item.validate is set, otherwise a command
+# that always succeeds. This uses the loop variable `item`, so it can only be used inside a loop over rsyslog_rsyslog_d_files.
+_rsyslog_validate_command: "{{ 'rsyslogd -N1 -f %s' if item.validate | default(false) else 'true %s' }}"

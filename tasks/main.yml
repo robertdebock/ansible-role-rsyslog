@@ -60,7 +60,7 @@
   ansible.builtin.copy:
     content: "{{ item.content | default('') }}"
     dest: "/etc/rsyslog.d/{{ item.name }}.conf"
-    validate: "{{ 'rsyslogd -N1 -f %s' if item.validate | default(false) else 'true %s' }}"
+    validate: "{{ _rsyslog_validate_command }}"
     owner: "{{ rsyslog_config_owner }}"
     group: "{{ rsyslog_config_group }}"
     mode: "{{ rsyslog_config_mode }}"
